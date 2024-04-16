@@ -17,6 +17,10 @@
     flex-direction: column;
 }
 
+#userSentImage {
+    width: 70%;
+}
+
 .chatHeader {
     height: 6%;
 }

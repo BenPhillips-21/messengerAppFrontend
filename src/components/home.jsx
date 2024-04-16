@@ -3,7 +3,6 @@ import { formatDistanceToNow } from 'date-fns';
 import styles from '../styles/home.module.css';
 
 const Home = ({JWT, setJWT}) => {
-  console.log(JWT)
   const [chats, setChats] = useState([])
   const [currentUser, setCurrentUser] = useState()
   const [chatID, setChatID] = useState()
@@ -122,6 +121,7 @@ const Home = ({JWT, setJWT}) => {
           </div>
           <div className={message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
             <p>{message.messageContent}</p>
+            <img id={styles.userSentImage} src={message.image.url}></img>
           </div>
         </div>
         ))}
