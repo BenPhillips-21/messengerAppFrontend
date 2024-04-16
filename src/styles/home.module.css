@@ -12,7 +12,73 @@
 
 .messagesContainer {
     background-color: #C3E0E5;
-    width: 65vw;
+    width: 62vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatHeader {
+    height: 6%;
+}
+
+.userMessage {
+    border: 3px solid black;
+    width: 100%;
+    gap: 0.75rem;
+}
+
+.userMessage P {
+    color: black;
+}
+
+.msgInfoInbound {
+    display: flex;
+    flex-direction: row;
+    width: 45%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.messageContentInbound {
+    background-color: purple;
+    width: 45%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.msgInfoInbound p {
+    margin-right: .75rem;
+}
+
+.msgInfoOutbound {
+    display: flex;
+    flex-direction: row;
+    margin-left: 54%;
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.msgInfoOutbound p {
+    margin-left: .75rem;
+}
+
+.messageContentOutbound {
+    background-color: pink;
+    margin-left: 54%;
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.sendMessageContainer {
+    border: 3px solid black;
+    width: 100%;
+    gap: 0.75rem;
 }
 
 .messageCard {
@@ -58,3 +124,4 @@
     margin-bottom: 0rem;
     margin-top: 0rem;
 }
+

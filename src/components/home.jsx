@@ -7,7 +7,8 @@ const Home = ({JWT, setJWT}) => {
   const [chats, setChats] = useState([])
   const [currentUser, setCurrentUser] = useState()
   const [chatID, setChatID] = useState()
-  const [chatContent, setChatContent] = useState()
+  const [currentChat, setCurrentChat] = useState()
+  const [newMessageContent, setNewMessageContent] = useState('')
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -19,11 +20,15 @@ const Home = ({JWT, setJWT}) => {
     mode: 'cors'
   };
 
-  useEffect(() => {
+  const fetchChat = () => {
     fetch(`http://localhost:3000/${chatID}`, options)
     .then(response => response.json())
-    .then(data => setChatContent(data)) 
+    .then(data => setCurrentChat(data)) 
     .catch(error => console.error('Error fetching posts:', error));
+  }
+
+  useEffect(() => {
+    fetchChat()
   }, [chatID])
 
   useEffect(() => {
@@ -42,7 +47,7 @@ const Home = ({JWT, setJWT}) => {
 
   console.log(chats)
   console.log(currentUser, 'le current user')
-  console.log(chatContent)
+  console.log(currentChat, "LE CURRENT CHAT")
 
   const formatDate = (date) => {
     return formatDistanceToNow(new Date(date), { addSuffix: true });
@@ -52,6 +57,32 @@ const Home = ({JWT, setJWT}) => {
     console.log(chatid)
     setChatID(chatid)
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    let messageContent = newMessageContent
+    const newPost = { messageContent }
+    try {
+        const response = await fetch(`http://localhost:3000/${chatID}/sendmessage`, {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${JWT}`
+            },
+            body: JSON.stringify(newPost)
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData}`);
+          }  
+
+        setNewMessageContent('')
+        fetchChat()
+    } catch (err) {
+        throw new Error(`${err}`);
+    }
+}
 
   return (
     <>
@@ -68,6 +99,7 @@ const Home = ({JWT, setJWT}) => {
                 ))}
               </div>
               <div className={styles.lastMsg}>
+                {/* The last message does't display if it is an image */}
                 <p>{chat.messages[chat.messages.length - 1].messageContent}</p>
               </div>
             </div>
@@ -78,9 +110,33 @@ const Home = ({JWT, setJWT}) => {
           </div>
         ))}
       </div>
-        <div className={styles.messagesContainer}>
-          <p>Messages</p>
-          <p>More messages....</p>
+      <div className={styles.messagesContainer}>
+        <div className={styles.chatHeader}>
+          <p>Bello</p>
+        </div>
+        {currentChat !== undefined && currentChat.messages.map((message, index) => (
+        <div className={styles.userMessage} key={index}>
+          <div className={message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
+            <p>{message.writer.username}</p>
+            <p>{formatDate(message.dateSent)}</p>
+          </div>
+          <div className={message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
+            <p>{message.messageContent}</p>
+          </div>
+        </div>
+        ))}
+        <div className={styles.sendMessageContainer}>
+        <form>
+            <label>Send Message:</label>
+            <input 
+                type="text"
+                required
+                value={newMessageContent}
+                onChange={(e) => setNewMessageContent(e.target.value)}
+            />
+            <button onClick={handleSubmit}>Send</button>
+        </form>
+        </div>
         </div>
       </div>
     </>
