@@ -9,7 +9,7 @@ const Login = ({ setJWT }) => {
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [response, setResponse] = useState('');
-    const [error, setError] = useState('')
+    const [error, setError] = useState(false)
     const navigate = useNavigate();
     
     const handleSubmit = async (e) => {
@@ -25,9 +25,10 @@ const Login = ({ setJWT }) => {
         })
         
         if (!response.ok) {
-            setError("Username or password incorrect")
+            setError(true)
             throw new Error("Username or password incorrect")
         }
+
         const data = await response.json()
         setResponse(data)
         setJWT(data.token)
@@ -60,12 +61,7 @@ const Login = ({ setJWT }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        {error && 
-                            <ul>
-                                <li>Password and confirmed password must match.</li>
-                                <li>Password must be at least 6 characters long.</li>
-                            </ul>
-                        }
+                        {error && <p>Username or password incorrect.</p>}
                         {!loading && <button>Submit</button>}
                         {loading && <button disabled>Registering...</button>}
                         <button>Login as Demo User</button>
