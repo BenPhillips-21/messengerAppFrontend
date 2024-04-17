@@ -9,6 +9,8 @@ const Home = ({JWT, setJWT}) => {
   const [currentChat, setCurrentChat] = useState()
   const [newMessageContent, setNewMessageContent] = useState('')
   const [selectedImage, setSelectedImage] = useState(null);
+  const [editingWindow, setEditingWindow] = useState(false)
+  const [chatName, setChatName] = useState()
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -36,7 +38,7 @@ const Home = ({JWT, setJWT}) => {
     .then(response => response.json())
     .then(data => setChats(data)) 
     .catch(error => console.error('Error fetching posts:', error));
-  }, [])
+  }, [chatName])
 
   useEffect(() => {
     fetch('http://localhost:3000/currentuser', options)
@@ -92,36 +94,87 @@ const handleImageChange = (event) => {
   setSelectedImage(file); 
 };
 
+const getInboundUserPfp = (chatUsersArray) => {
+  for (let i = 0; i < chatUsersArray.length; i++) {
+    if (chatUsersArray[i].username !== currentUser) {
+      return chatUsersArray[i].profilePic.url
+    }
+  }
+}
+
+const handleChangeChatName = async (e) => {
+  e.preventDefault();
+  let newChatName = chatName;
+  try {
+    const response = await fetch(`http://localhost:3000/${chatID}/changechatname`, {
+      method: 'POST',
+      headers: { 
+        'Authorization': `Bearer ${JWT}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ newChatName })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`${errorData}`);
+    } 
+    setChatName(); 
+    setEditingWindow(false);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
   return (
     <>
       <div className={styles.fatherContainer}>
       <div className={styles.chatContainer}>
         {chats.map((chat, index) => (
           <div onClick={() => handleChatClick(chat._id)} className={styles.messageCard} key={index}>
+            <div className={styles.chatImage}>
+              {chat.users.length > 2 ? <img src={chat.image.url}></img> : <img src={getInboundUserPfp(chat.users)}></img>}
+            </div>
             <div className={styles.chatName}>
               <div className={styles.userNames}>
-                {chat.users.map((user, ind) => (
+                {chat.chatName !== undefined ? <p>{chat.chatName}</p> : 
+                chat.users.map((user, ind) => (
                   <div key={ind}>
                     {user.username !== currentUser ? <p>@{user.username}</p> : ''}
                   </div>
                 ))}
               </div>
-              <div className={styles.lastMsg}>
-                {/* The last message does't display if it is an image */}
+              {chat.messages.length > 0 ? <div className={styles.lastMsg}>
                 <p>{chat.messages[chat.messages.length - 1].messageContent}</p>
-              </div>
+              </div> : <p>No messages sent in this chat</p>}
             </div>
-            <div className={styles.lastActiveContainer}>
+            {chat.messages.length > 0 ? <div className={styles.lastActiveContainer}>
               <p>Last Active: </p>
-              <p>{formatDate(chat.messages[chat.messages.length - 1].dateSent)}</p>
-            </div>
+                <p>{formatDate(chat.messages[chat.messages.length - 1].dateSent)}</p>
+            </div> : ''}
           </div>
         ))}
       </div>
       <div className={styles.messagesContainer}>
         <div className={styles.chatHeader}>
           <p>Bello</p>
+          {currentChat !== undefined ? <button onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>Chat Settings</button> : ''}
         </div>
+        {editingWindow === true ? 
+        <div className={styles.editingWindow}>
+          <form>
+            <label>Change Chat Name:</label>
+            <input 
+                type="text"
+                required
+                value={chatName}
+                onChange={(e) => setChatName(e.target.value)}
+            />
+            <button onClick={handleChangeChatName}>Send</button>
+        </form>
+        </div>
+      : ''
+      }
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
         <div className={styles.userMessage} key={index}>
           <div className={message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
@@ -129,8 +182,14 @@ const handleImageChange = (event) => {
             <p>{formatDate(message.dateSent)}</p>
           </div>
           <div className={message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
-            <p>{message.messageContent}</p>
-            <img id={styles.userSentImage} src={message.image.url}></img>
+            <div className={message.writer.username !== currentUser ? styles.messageAndImageContainerInbound : styles.messageAndImageContainerOutbound}>
+              <div className={styles.messageBubble}>
+                {message.messageContent ? <p>{message.messageContent}</p> : ''}
+              </div>
+              <div className={message.writer.username !== currentUser ? styles.imageBubbleInbound : styles.imageBubbleOutbound}>
+                {message.image.url ? <img id={styles.userSentImage} src={message.image.url}></img> : ''}
+              </div>
+            </div>
           </div>
         </div>
         ))}
