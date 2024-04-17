@@ -301,6 +301,15 @@ const addSelectedUsers = () => {
         </form>
         </div>
         </div>
+        <div className={styles.chatInfoAndSettings}>
+          <h3>Users in Chat:</h3>
+          {currentChat !== undefined && currentChat.users.map((user, index) => (
+            <div className={styles.userInfo} key={index}>
+              <img src={user.profilePic.url} />
+              <p>{user.username}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
