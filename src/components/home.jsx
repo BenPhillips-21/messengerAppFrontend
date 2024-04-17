@@ -110,6 +110,7 @@ const handleChangeChatImage = async (e) => {
     
     setSelectedChatImage(null)
     setEditingWindow(false)
+    fetchChat()
 } catch (err) {
     throw new Error(`${err}`);
 }
@@ -170,9 +171,14 @@ const handleAddUsersClick = async () => {
   }
 }
 
-const handleToggle = (id) => {
-  usersToAdd.push(id)
-  setUsersToAdd(usersToAdd)
+const handleCheckToggle = (userID) => {
+  if (!usersToAdd.includes(userID)) {
+    usersToAdd.push(userID)
+    setUsersToAdd(usersToAdd)
+  } else {
+    const filteredArray = usersToAdd.filter(item => item !== userID);
+    setUsersToAdd(filteredArray)
+  }
 };
 
 const addSelectedUsers = () => {
@@ -186,7 +192,16 @@ const addSelectedUsers = () => {
   setUsersToAdd([])
   setAddUsers(false)
   setAllUsers(null)
+  fetchChat()
 }
+
+let currentChatUsers = []
+if (currentChat !== undefined) {
+  for (let i = 0; i < currentChat.users.length; i++) {
+    currentChatUsers.push((currentChat.users[i].username))
+  }
+}
+
 
   return (
     <>
@@ -219,50 +234,9 @@ const addSelectedUsers = () => {
       </div>
       <div className={styles.messagesContainer}>
         <div className={styles.chatHeader}>
-          <p>Bello</p>
-          {currentChat !== undefined ? <button onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>Chat Settings</button> : ''}
+          <p>{currentChat !== undefined && currentChat.chatName}</p>
+          {currentChat !== undefined && <img id={styles.gcImage} src={currentChat.image.url} />}
         </div>
-        {editingWindow === true ? 
-        <div className={styles.editingWindow}>
-          <form>
-            <label>Change Chat Name:</label>
-            <input 
-                type="text"
-                required
-                value={chatName}
-                onChange={(e) => setChatName(e.target.value)}
-            />
-            <button onClick={handleChangeChatName}>Send</button>
-        </form>
-        <form>
-          <label>Change Chat Image:</label>
-            <input type="file" accept="image/*" onChange={handleChatImageChange} />
-            {selectedChatImage && (
-              <div>
-                <p>Selected Image:</p>
-                <img style={{'width': '15%'}} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
-              </div>
-            )}
-            <button onClick={handleChangeChatImage}>Send</button>
-        </form>
-        <button onClick={() => handleAddUsersClick()}>Add Users</button>
-        {addUsers === true ? <div className={styles.addUsersList}>
-            {allUsers && allUsers.map((user) => (
-              <li key={user._id}>
-              <label>
-              {user.username}
-                <input
-                  type="checkbox"
-                  checked={user.checked}
-                  onChange={() => handleToggle(user._id)}
-                />
-              </label>
-            </li>
-            ))}
-            <button onClick={() => addSelectedUsers()}>Add Selected Users</button>
-        </div> : ''}
-        </div>
-      : '' }
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
         <div className={styles.userMessage} key={index}>
           <div className={message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
@@ -302,13 +276,57 @@ const addSelectedUsers = () => {
         </div>
         </div>
         <div className={styles.chatInfoAndSettings}>
+        {currentChat !== undefined ? <button onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>Chat Settings</button> : ''}
+        {editingWindow === true ? 
+        <div className={styles.editingWindow}>
+          <form>
+            <label>Change Chat Name:</label>
+            <input 
+                type="text"
+                required
+                value={chatName}
+                onChange={(e) => setChatName(e.target.value)}
+            />
+            <button onClick={handleChangeChatName}>Send</button>
+        </form>
+        <form>
+          <label>Change Chat Image:</label>
+            <input type="file" accept="image/*" onChange={handleChatImageChange} />
+            {selectedChatImage && (
+              <div>
+                <p>Selected Image:</p>
+                <img style={{'width': '15%'}} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
+              </div>
+            )}
+            <button onClick={handleChangeChatImage}>Send</button>
+        </form>
+        <button onClick={() => handleAddUsersClick()}>Add Users</button>
+        {addUsers === true ? <div className={styles.addUsersList}>
+          {allUsers && allUsers.map((user) => (
+              !currentChatUsers.includes(user.username) ? (
+                <li id={styles.usersToAddListItems} key={user._id}>
+                  <label>
+                    {user.username}
+                    <input
+                      type="checkbox"
+                      onChange={() => handleCheckToggle(user._id)}
+                    />
+                  </label>
+                </li>
+              ) : null
+            ))}
+          <button onClick={() => addSelectedUsers()}>Add Selected Users</button>
+        </div> : ''}
+        </div>
+      : '' }
           <h3>Users in Chat:</h3>
           {currentChat !== undefined && currentChat.users.map((user, index) => (
-            <div className={styles.userInfo} key={index}>
-              <img src={user.profilePic.url} />
-              <p>{user.username}</p>
-            </div>
-          ))}
+          !currentChatUsers.includes(user._id) ? 
+          <div className={styles.userInfo} key={index}>
+            <img src={user.profilePic.url} />
+            <p>{user.username}</p>
+          </div> : null
+        ))}
         </div>
       </div>
     </>

@@ -21,6 +21,11 @@
     width: 70%;
 }
 
+#gcImage {
+    width: 6%;
+    margin-left: 1rem;
+}
+
 .chatInfoAndSettings {
     width: 16.5vw;
     background-color: purple;
@@ -58,6 +63,10 @@
 
 .editingWindow {
     background-color: blanchedalmond;
+}
+
+#usersToAddListItems {
+    list-style-type: none;
 }
 
 .userMessage {
