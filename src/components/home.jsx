@@ -8,6 +8,7 @@ const Home = ({JWT, setJWT}) => {
   const [chatID, setChatID] = useState()
   const [currentChat, setCurrentChat] = useState()
   const [newMessageContent, setNewMessageContent] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -59,29 +60,37 @@ const Home = ({JWT, setJWT}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    let image = selectedImage
     let messageContent = newMessageContent
-    const newPost = { messageContent }
+    const formData = new FormData();
+    formData.append('image', image)
+    formData.append('messageContent', messageContent)
     try {
         const response = await fetch(`http://localhost:3000/${chatID}/sendmessage`, {
             method: 'POST',
             headers: { 
-                "Content-Type": "application/json",
                 'Authorization': `Bearer ${JWT}`
             },
-            body: JSON.stringify(newPost)
+            body: (formData)
         })
 
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(`${errorData}`);
           }  
-
+        
+        setSelectedImage(null)
         setNewMessageContent('')
         fetchChat()
     } catch (err) {
         throw new Error(`${err}`);
     }
 }
+
+const handleImageChange = (event) => {
+  const file = event.target.files[0]; 
+  setSelectedImage(file); 
+};
 
   return (
     <>
@@ -134,6 +143,13 @@ const Home = ({JWT, setJWT}) => {
                 value={newMessageContent}
                 onChange={(e) => setNewMessageContent(e.target.value)}
             />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {selectedImage && (
+              <div>
+                <p>Selected Image:</p>
+                <img style={{'width': '50%'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
+              </div>
+            )}
             <button onClick={handleSubmit}>Send</button>
         </form>
         </div>
