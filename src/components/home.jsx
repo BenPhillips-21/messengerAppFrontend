@@ -9,6 +9,7 @@ const Home = ({JWT, setJWT}) => {
   const [currentChat, setCurrentChat] = useState()
   const [newMessageContent, setNewMessageContent] = useState('')
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedChatImage, setSelectedChatImage] = useState(null)
   const [editingWindow, setEditingWindow] = useState(false)
   const [chatName, setChatName] = useState()
 
@@ -38,7 +39,7 @@ const Home = ({JWT, setJWT}) => {
     .then(response => response.json())
     .then(data => setChats(data)) 
     .catch(error => console.error('Error fetching posts:', error));
-  }, [chatName])
+  }, [chatName, selectedChatImage])
 
   useEffect(() => {
     fetch('http://localhost:3000/currentuser', options)
@@ -89,9 +90,40 @@ const Home = ({JWT, setJWT}) => {
     }
 }
 
+const handleChangeChatImage = async (e) => {
+  e.preventDefault()
+  let image = selectedChatImage
+  const formData = new FormData();
+  formData.append('image', image)
+  try {
+    const response = await fetch(`http://localhost:3000/${chatID}/changechatimage`, {
+        method: 'POST',
+        headers: { 
+            'Authorization': `Bearer ${JWT}`
+        },
+        body: (formData)
+    })
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`${errorData}`);
+      }  
+    
+    setSelectedChatImage(null)
+    setEditingWindow(false)
+} catch (err) {
+    throw new Error(`${err}`);
+}
+}
+
 const handleImageChange = (event) => {
   const file = event.target.files[0]; 
   setSelectedImage(file); 
+};
+
+const handleChatImageChange = (event) => {
+  const file = event.target.files[0]; 
+  setSelectedChatImage(file); 
 };
 
 const getInboundUserPfp = (chatUsersArray) => {
@@ -171,6 +203,17 @@ const handleChangeChatName = async (e) => {
                 onChange={(e) => setChatName(e.target.value)}
             />
             <button onClick={handleChangeChatName}>Send</button>
+        </form>
+        <form>
+          <label>Change Chat Image:</label>
+            <input type="file" accept="image/*" onChange={handleChatImageChange} />
+            {selectedChatImage && (
+              <div>
+                <p>Selected Image:</p>
+                <img style={{'width': '30%'}} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
+              </div>
+            )}
+            <button onClick={handleChangeChatImage}>Send</button>
         </form>
         </div>
       : ''
