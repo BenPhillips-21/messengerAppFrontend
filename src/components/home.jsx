@@ -12,6 +12,9 @@ const Home = ({JWT, setJWT}) => {
   const [selectedChatImage, setSelectedChatImage] = useState(null)
   const [editingWindow, setEditingWindow] = useState(false)
   const [chatName, setChatName] = useState()
+  const [addUsers, setAddUsers] = useState(false)
+  const [allUsers, setAllUsers] = useState(null)
+  const [usersToAdd, setUsersToAdd] = useState([])
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -47,10 +50,6 @@ const Home = ({JWT, setJWT}) => {
     .then(data => setCurrentUser(data.username)) 
     .catch(error => console.error('Error fetching posts:', error));
   }, [])
-
-  console.log(chats)
-  console.log(currentUser, 'le current user')
-  console.log(currentChat, "LE CURRENT CHAT")
 
   const formatDate = (date) => {
     return formatDistanceToNow(new Date(date), { addSuffix: true });
@@ -157,6 +156,37 @@ const handleChangeChatName = async (e) => {
   }
 }
 
+const handleAddUsersClick = async () => {
+  if (addUsers === false) {
+    setAddUsers(true)
+    fetch('http://localhost:3000/allusers', options)
+    .then(response => response.json())
+    .then(data => setAllUsers(data)) 
+    .catch(error => console.error('Error fetching posts:', error));
+  } else {
+    setAddUsers(false)
+    setAllUsers(null)
+    setUsersToAdd([])
+  }
+}
+
+const handleToggle = (id) => {
+  usersToAdd.push(id)
+  setUsersToAdd(usersToAdd)
+};
+
+const addSelectedUsers = () => {
+  for (let i = 0; i < usersToAdd.length; i++) {
+    console.log(usersToAdd[i])
+    fetch(`http://localhost:3000/${chatID}/${usersToAdd[i]}/addtochat`, options)
+    .then(response => response.json())
+    .then(data => console.log(data)) 
+    .catch(error => console.error('Error fetching posts:', error));
+  }
+  setUsersToAdd([])
+  setAddUsers(false)
+  setAllUsers(null)
+}
 
   return (
     <>
@@ -210,14 +240,29 @@ const handleChangeChatName = async (e) => {
             {selectedChatImage && (
               <div>
                 <p>Selected Image:</p>
-                <img style={{'width': '30%'}} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
+                <img style={{'width': '15%'}} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
               </div>
             )}
             <button onClick={handleChangeChatImage}>Send</button>
         </form>
+        <button onClick={() => handleAddUsersClick()}>Add Users</button>
+        {addUsers === true ? <div className={styles.addUsersList}>
+            {allUsers && allUsers.map((user) => (
+              <li key={user._id}>
+              <label>
+              {user.username}
+                <input
+                  type="checkbox"
+                  checked={user.checked}
+                  onChange={() => handleToggle(user._id)}
+                />
+              </label>
+            </li>
+            ))}
+            <button onClick={() => addSelectedUsers()}>Add Selected Users</button>
+        </div> : ''}
         </div>
-      : ''
-      }
+      : '' }
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
         <div className={styles.userMessage} key={index}>
           <div className={message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
