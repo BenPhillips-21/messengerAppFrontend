@@ -17,6 +17,8 @@ const Home = ({
   usersToAdd, setUsersToAdd
 }) => {
 
+  const [currentChatUsers, setCurrentChatUsers] = useState([])
+
   const headers = {
     'Authorization': `Bearer ${JWT}`,
     'Content-Type': 'application/json'
@@ -159,12 +161,14 @@ const addSelectedUsers = () => {
   fetchChat()
 }
 
-let currentChatUsers = []
-if (currentChat !== undefined) {
-  for (let i = 0; i < currentChat.users.length; i++) {
-    currentChatUsers.push((currentChat.users[i].username))
+useEffect(() => {
+  if (currentChat !== undefined) {
+      const users = currentChat.users.map(user => user.username);
+      setCurrentChatUsers(users);
   }
-}
+  console.log(currentChat, "currentChat")
+}, [currentChat]);
+
 
 
   return (

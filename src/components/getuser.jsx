@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/getuser.module.css';
 
-const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser}) => {
+const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, setMenu, setCurrentChat}) => {
     const [user, setUser] = useState(null)
     const [sharedChats, setSharedChats] = useState()
+
+    const navigate = useNavigate();
 
     const headers = {
         'Authorization': `Bearer ${JWT}`,
@@ -14,6 +17,11 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser}) => {
         headers: headers,
         mode: 'cors'
       };
+      const createChatOptions = {
+        method: 'POST',
+        headers: headers,
+        mode: 'cors'
+      }
 
     useEffect(() => {
         fetch(`http://localhost:3000/getuser/${userToGet}`, options)
@@ -48,6 +56,42 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser}) => {
         }
       }, [user]);
 
+      const visitChat = (chatid) => {
+        setChatID(chatid)
+        navigate("/home")
+      }
+
+      const startChat = async () => {
+        let result = await checkIfPrivateChatExists(); // Wait for the result
+        if (result === false) {
+            await fetch(`http://localhost:3000/createchat/${user._id}`, createChatOptions)
+                .then(response => response.json())
+                .then(data => {
+                    setChatID(data.chat._id);
+                    setMenu("yourChats");
+                    setCurrentChat(data.chat);
+                    console.log(data)
+                    navigate("/home");
+                })
+                .catch(error => console.error('Error creating chat', error));
+        }
+    }
+
+      const checkIfPrivateChatExists = () => {
+        for (let i = 0; i < chats.length; i++) {
+            const subArray = chats[i].users;
+            if (subArray.length < 3) {
+                if (subArray[0].username === user.username || subArray[1].username === user.username) {
+                    setChatID(chats[i]._id)
+                    navigate("/home")
+                    return true
+                }
+            } 
+        }
+        return false
+      }
+
+
 
     return (
       <>
@@ -58,15 +102,17 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser}) => {
                     <img src={user.profilePic.url}></img>
                     <h1>{user.username}</h1>
                     <h2>{user.bio}</h2>
+                    <button onClick={() => startChat()}>Chat With {user.username}</button>
                 </div>
                 }
+                {/* <h3>Shared Chats:</h3>
                 {sharedChats !== undefined && 
                 sharedChats.map((leChat, index) => (
-                    <div key={index}>
+                    <div onClick={() => visitChat(leChat._id)} key={index}>
                     {leChat.chatName}
                     </div>
                 ))
-                }
+                } */}
             </div>
         </div>
       </>

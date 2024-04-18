@@ -58,7 +58,7 @@ function App() {
             chatName={chatName} setChatName={setChatName}
             addUsers={addUsers} setAddUsers={setAddUsers}
             usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}/>} />
-            <Route path="/getuser" element={<GetUser JWT={JWT} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser}/>} />
+            <Route path="/getuser" element={<GetUser JWT={JWT} setCurrentChat={setCurrentChat} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser} setChatID={setChatID} setMenu={setMenu}/>} />
             <Route path="/currentuser" element={<UserProfile JWT={JWT} setJWT={setJWT} />} />
             <Route path="/sign-up" element={<Register JWT={JWT} setJWT={setJWT} />} />
             <Route path="/login" element={<Login JWT={JWT} setJWT={setJWT} />} />

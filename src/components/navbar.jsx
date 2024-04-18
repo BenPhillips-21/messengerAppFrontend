@@ -56,7 +56,7 @@ const Navbar = ({
     .then(response => response.json())
     .then(data => setChats(data)) 
     .catch(error => console.error('Error fetching posts:', error));
-  }, [chatName, selectedChatImage])
+  }, [chatName, selectedChatImage, menu, chatID])
 
   useEffect(() => {
     fetch('http://localhost:3000/currentuser', options)
