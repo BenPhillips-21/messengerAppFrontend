@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/navbar';
 import Home from './components/home';
 import UserProfile from './components/userprofile';
+import GetUser from './components/getuser'
 import Register from './components/register';
 import Login from './components/login';
 
@@ -23,6 +24,7 @@ function App() {
   const [chatName, setChatName] = useState()
   const [addUsers, setAddUsers] = useState(false)
   const [usersToAdd, setUsersToAdd] = useState([])
+  const [userToGet, setUserToGet] = useState(null)
   const location = useLocation();
   const showNavbar = !['/sign-up', '/login'].includes(location.pathname);
 
@@ -39,6 +41,7 @@ function App() {
             selectedChatImage={selectedChatImage}
             chatName={chatName}
             addUsers={addUsers} setAddUsers={setAddUsers}
+            userToGet={userToGet} setUserToGet={setUserToGet}
           />}
           <Routes>
             <Route path="/home" element={<Home 
@@ -55,6 +58,7 @@ function App() {
             chatName={chatName} setChatName={setChatName}
             addUsers={addUsers} setAddUsers={setAddUsers}
             usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}/>} />
+            <Route path="/getuser" element={<GetUser JWT={JWT} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser}/>} />
             <Route path="/currentuser" element={<UserProfile JWT={JWT} setJWT={setJWT} />} />
             <Route path="/sign-up" element={<Register JWT={JWT} setJWT={setJWT} />} />
             <Route path="/login" element={<Login JWT={JWT} setJWT={setJWT} />} />

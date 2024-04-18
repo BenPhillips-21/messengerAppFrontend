@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
 import { formatDistanceToNow } from 'date-fns';
+
 
 const Navbar = ({
   JWT,
@@ -12,8 +13,11 @@ const Navbar = ({
   allUsers, setAllUsers,
   currentChat, setCurrentChat,
   selectedChatImage, 
-  chatName
+  chatName,
+  userToGet, setUserToGet
 }) => {
+
+  const navigate = useNavigate();
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -68,6 +72,7 @@ const Navbar = ({
   const handleChatClick = (chatid) => {
     console.log(chatid)
     setChatID(chatid)
+    navigate('/home')
   }
 
 const getInboundUserPfp = (chatUsersArray) => {
@@ -79,7 +84,7 @@ const getInboundUserPfp = (chatUsersArray) => {
 }
 
 const visitUser = (userid) => {
-  console.log(userid)
+  setUserToGet(userid)
 }
 
   return (
@@ -133,10 +138,12 @@ const visitUser = (userid) => {
           <div>
               {allUsers && allUsers.map((user) => (
                 <li id={styles.usersToAddListItems} key={user._id}>
+                  <Link to="/getuser" >
                     <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
                       <img src={user.profilePic.url} />
                       <p>{user.username}</p>
                     </div>
+                  </Link>
                 </li>
             ))}
           </div>
