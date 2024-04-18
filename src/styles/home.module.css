@@ -4,19 +4,6 @@
     color: white;
 }
 
-.chatContainer {
-    background-color: #41729F;
-    height: 100vh;
-    width: 22vw;
-}
-
-.menu {
-    background-color: green;
-    height: 8.1%;
-    display: flex;
-    flex-direction: row;
-}
-
 .messagesContainer {
     background-color: #C3E0E5;
     width: 54vw;
@@ -52,19 +39,6 @@
     width: 20%;
 }
 
-.userListLeft {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 60%;
-    margin-left: 3rem;
-}
-
-.userListLeft img {
-    width: 25%;
-}
-
 .allUsersList {
     background-color: purple;
     display: flex;
@@ -83,10 +57,6 @@
 
 .editingWindow {
     background-color: blanchedalmond;
-}
-
-#usersToAddListItems {
-    list-style-type: none;
 }
 
 .userMessage {
@@ -196,47 +166,7 @@
     flex-direction: row;
 }
 
-.chatImage {
-   width: 20%;
-}
 
-.chatImage img {
-    width: 100%;
-    max-height: 100%;
-}
 
-.chatName {
-    display: flex;
-    flex-direction: column;
-    width: 55%;
-    margin-left: 1rem;
-    height: 95%;
-}
 
-.userNames {
-    display: flex;
-    flex-direction: row;
-    height: 30%;
-}
-
-.chatName p {
-    margin-left: 1rem;
-}
-
-.lastMsg {
-    display: flex;
-    align-items: flex-start;
-    height: 30%;
-}
-
-.lastActiveContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0.8rem;
-}
-
-.lastActiveContainer p {
-    margin-bottom: 0rem;
-    margin-top: 0rem;
-}
 

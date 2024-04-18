@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import styles from '../styles/home.module.css';
+import { formatDistanceToNow } from 'date-fns';
 
-const Home = ({JWT, setJWT}) => {
-  const [chats, setChats] = useState([])
-  const [currentUser, setCurrentUser] = useState()
-  const [chatID, setChatID] = useState()
-  const [currentChat, setCurrentChat] = useState()
-  const [newMessageContent, setNewMessageContent] = useState('')
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedChatImage, setSelectedChatImage] = useState(null)
-  const [editingWindow, setEditingWindow] = useState(false)
-  const [chatName, setChatName] = useState()
-  const [addUsers, setAddUsers] = useState(false)
-  const [allUsers, setAllUsers] = useState(null)
-  const [usersToAdd, setUsersToAdd] = useState([])
-  const [menu, setMenu] = useState(true)
+const Home = ({
+  JWT, setChats, 
+  chatID, 
+  currentUser, setCurrentUser, 
+  allUsers, setAllUsers,
+  currentChat, setCurrentChat,
+  newMessageContent, setNewMessageContent,
+  selectedImage, setSelectedImage,
+  selectedChatImage, setSelectedChatImage,
+  editingWindow, setEditingWindow,
+  chatName, setChatName,
+  addUsers, setAddUsers,
+  usersToAdd, setUsersToAdd
+}) => {
 
   const headers = {
     'Authorization': `Bearer ${JWT}`,
@@ -27,10 +27,6 @@ const Home = ({JWT, setJWT}) => {
     mode: 'cors'
   };
 
-  const handleMenuClick = (menuValue) => {
-    setMenu(menuValue)
-  }
-
   const fetchChat = () => {
     fetch(`http://localhost:3000/${chatID}`, options)
     .then(response => response.json())
@@ -38,38 +34,8 @@ const Home = ({JWT, setJWT}) => {
     .catch(error => console.error('Error fetching posts:', error));
   }
 
-  useEffect(() => {
-    fetchChat()
-  }, [chatID])
-
-  useEffect(() => {
-    fetch('http://localhost:3000/allusers', options)
-    .then(response => response.json())
-    .then(data => setAllUsers(data)) 
-    .catch(error => console.error('Error fetching posts:', error));
-  }, [])
-
-  useEffect(() => {
-    fetch('http://localhost:3000/allchats', options)
-    .then(response => response.json())
-    .then(data => setChats(data)) 
-    .catch(error => console.error('Error fetching posts:', error));
-  }, [chatName, selectedChatImage])
-
-  useEffect(() => {
-    fetch('http://localhost:3000/currentuser', options)
-    .then(response => response.json())
-    .then(data => setCurrentUser(data.username)) 
-    .catch(error => console.error('Error fetching posts:', error));
-  }, [])
-
   const formatDate = (date) => {
     return formatDistanceToNow(new Date(date), { addSuffix: true });
-  }
-
-  const handleChatClick = (chatid) => {
-    console.log(chatid)
-    setChatID(chatid)
   }
 
   const handleSubmit = async (e) => {
@@ -138,14 +104,6 @@ const handleChatImageChange = (event) => {
   setSelectedChatImage(file); 
 };
 
-const getInboundUserPfp = (chatUsersArray) => {
-  for (let i = 0; i < chatUsersArray.length; i++) {
-    if (chatUsersArray[i].username !== currentUser) {
-      return chatUsersArray[i].profilePic.url
-    }
-  }
-}
-
 const handleChangeChatName = async (e) => {
   e.preventDefault();
   let newChatName = chatName;
@@ -172,13 +130,8 @@ const handleChangeChatName = async (e) => {
 const handleAddUsersClick = async () => {
   if (addUsers === false) {
     setAddUsers(true)
-    fetch('http://localhost:3000/allusers', options)
-    .then(response => response.json())
-    .then(data => setAllUsers(data)) 
-    .catch(error => console.error('Error fetching posts:', error));
   } else {
     setAddUsers(false)
-    setAllUsers(null)
     setUsersToAdd([])
   }
 }
@@ -203,7 +156,6 @@ const addSelectedUsers = () => {
   }
   setUsersToAdd([])
   setAddUsers(false)
-  setAllUsers(null)
   fetchChat()
 }
 
@@ -214,57 +166,10 @@ if (currentChat !== undefined) {
   }
 }
 
-const visitUser = (userid) => {
-  console.log(userid)
-}
-
 
   return (
     <>
       <div className={styles.fatherContainer}>
-        { JWT &&
-      <div className={styles.chatContainer}>
-        <div className={styles.menu}>
-          <button onClick={() => handleMenuClick("yourChats")}>Your Chats</button>
-          <button onClick={() => handleMenuClick("otherUsers")}>Users</button>
-        </div>
-        {menu === "yourChats" ? chats.map((chat, index) => (
-          <div onClick={() => handleChatClick(chat._id)} className={styles.messageCard} key={index}>
-            <div className={styles.chatImage}>
-              {chat.users.length > 2 ? <img src={chat.image.url}></img> : <img src={getInboundUserPfp(chat.users)}></img>}
-            </div>
-            <div className={styles.chatName}>
-              <div className={styles.userNames}>
-                {chat.chatName !== undefined ? <p>{chat.chatName}</p> : 
-                chat.users.map((user, ind) => (
-                  <div key={ind}>
-                    {user.username !== currentUser ? <p>@{user.username}</p> : ''}
-                  </div>
-                ))}
-              </div>
-              {chat.messages.length > 0 ? <div className={styles.lastMsg}>
-                <p>{chat.messages[chat.messages.length - 1].messageContent}</p>
-              </div> : <p>No messages sent in this chat</p>}
-            </div>
-            {chat.messages.length > 0 ? <div className={styles.lastActiveContainer}>
-              <p>Last Active: </p>
-                <p>{formatDate(chat.messages[chat.messages.length - 1].dateSent)}</p>
-            </div> : ''}
-          </div>
-        )) : 
-          <div>
-              {allUsers && allUsers.map((user) => (
-                <li id={styles.usersToAddListItems} key={user._id}>
-                    <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
-                      <img src={user.profilePic.url} />
-                      <p>{user.username}</p>
-                    </div>
-                </li>
-            ))}
-          </div>
-        }
-      </div> 
-      }
       <div className={styles.messagesContainer}>
         <div className={styles.chatHeader}>
           <p>{currentChat !== undefined && currentChat.chatName}</p>

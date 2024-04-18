@@ -10,14 +10,51 @@ import Login from './components/login';
 
 function App() {
   const [JWT, setJWT] = useState(null);
+  const [menu, setMenu] = useState(true)
+  const [chats, setChats] = useState([])
+  const [chatID, setChatID] = useState()
+  const [currentUser, setCurrentUser] = useState()
+  const [allUsers, setAllUsers] = useState(null)
+  const [currentChat, setCurrentChat] = useState()
+  const [newMessageContent, setNewMessageContent] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedChatImage, setSelectedChatImage] = useState(null)
+  const [editingWindow, setEditingWindow] = useState(false)
+  const [chatName, setChatName] = useState()
+  const [addUsers, setAddUsers] = useState(false)
+  const [usersToAdd, setUsersToAdd] = useState([])
   const location = useLocation();
   const showNavbar = !['/sign-up', '/login'].includes(location.pathname);
 
   return (
         <>
-          {showNavbar && <Navbar JWT={JWT} setJWT={setJWT} />}
+          {showNavbar && <Navbar 
+            JWT={JWT}
+            menu={menu} setMenu={setMenu} 
+            chats={chats} setChats={setChats} 
+            chatID={chatID} setChatID={setChatID} 
+            currentUser={currentUser} setCurrentUser={setCurrentUser} 
+            allUsers={allUsers} setAllUsers={setAllUsers}
+            currentChat={currentChat} setCurrentChat={setCurrentChat}
+            selectedChatImage={selectedChatImage}
+            chatName={chatName}
+            addUsers={addUsers} setAddUsers={setAddUsers}
+          />}
           <Routes>
-            <Route path="/home" element={<Home JWT={JWT} setJWT={setJWT} />} />
+            <Route path="/home" element={<Home 
+            JWT={JWT}
+            setChats={setChats}
+            chatID={chatID}
+            currentUser={currentUser} setCurrentUser={setCurrentUser} 
+            allUsers={allUsers} setAllUsers={setAllUsers}
+            currentChat={currentChat} setCurrentChat={setCurrentChat}
+            newMessageContent={newMessageContent} setNewMessageContent={setNewMessageContent}
+            selectedImage={selectedImage} setSelectedImage={setSelectedImage}
+            selectedChatImage={selectedChatImage} setSelectedChatImage={setSelectedChatImage}
+            editingWindow={editingWindow} setEditingWindow={setEditingWindow}
+            chatName={chatName} setChatName={setChatName}
+            addUsers={addUsers} setAddUsers={setAddUsers}
+            usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}/>} />
             <Route path="/currentuser" element={<UserProfile JWT={JWT} setJWT={setJWT} />} />
             <Route path="/sign-up" element={<Register JWT={JWT} setJWT={setJWT} />} />
             <Route path="/login" element={<Login JWT={JWT} setJWT={setJWT} />} />
