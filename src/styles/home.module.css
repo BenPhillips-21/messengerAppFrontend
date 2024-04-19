@@ -69,6 +69,10 @@
     color: black;
 }
 
+.userMessage button {
+    align-self: flex-end;
+}
+
 .msgInfoInbound {
     display: flex;
     flex-direction: row;

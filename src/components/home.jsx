@@ -202,6 +202,20 @@ const kickUser = async (userid) => {
   }
 }
 
+const deleteMsg = async (messageid) => {
+  try {
+    const response = await fetch(`http://localhost:3000/${messageid}/deletemessage`, options);
+    if (!response.ok) {
+      throw new Error('Failed to delete message');
+    }
+    const data = await response.json();
+    setCurrentChat(data.updatedChat);
+    fetchChat();
+  } catch (error) {
+    console.error('Error deleting message:', error.message);
+  }
+}
+
   return (
     <>
       <div className={styles.fatherContainer}>
@@ -226,6 +240,10 @@ const kickUser = async (userid) => {
                 </div>
               </div>
             </div>
+            {chad === true && 
+            <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
+              <button onClick={() => deleteMsg(message._id)}>Delete</button>
+            </div>}
           </div>
         ))}
         <div className={styles.sendMessageContainer}>
@@ -278,7 +296,7 @@ const kickUser = async (userid) => {
             </>
           )}
         <button onClick={() => kickUser(userObject._id)}>Leave Chat</button>
-        <button onClick={() => handleAddUsersClick()}>Add Users</button>
+        {chad === true && <button onClick={() => handleAddUsersClick()}>Add Users</button>}
         {addUsers === true ? <div className={styles.addUsersList}>
           {allUsers && allUsers.map((user) => (
               !currentChatUsers.includes(user.username) ? (
