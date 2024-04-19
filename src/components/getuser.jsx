@@ -62,7 +62,7 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
       }
 
       const startChat = async () => {
-        let result = await checkIfPrivateChatExists(); // Wait for the result
+        let result = await checkIfPrivateChatExists(); 
         if (result === false) {
             await fetch(`http://localhost:3000/createchat/${user._id}`, createChatOptions)
                 .then(response => response.json())
@@ -81,7 +81,9 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
         for (let i = 0; i < chats.length; i++) {
             const subArray = chats[i].users;
             if (subArray.length < 3) {
-                if (subArray[0].username === user.username || subArray[1].username === user.username) {
+                if (subArray[1] === undefined) {
+                    console.log("Subarray 1 undefined")
+                } else if (subArray[0].username === user.username || subArray[1].username === user.username) {
                     setChatID(chats[i]._id)
                     navigate("/home")
                     return true

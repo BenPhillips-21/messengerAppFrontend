@@ -14,7 +14,8 @@ const Navbar = ({
   currentChat, setCurrentChat,
   selectedChatImage, 
   chatName,
-  userToGet, setUserToGet
+  userToGet, setUserToGet,
+  chad, setChad
 }) => {
 
   const navigate = useNavigate();
@@ -35,10 +36,18 @@ const Navbar = ({
 
   const fetchChat = () => {
     fetch(`http://localhost:3000/${chatID}`, options)
-    .then(response => response.json())
-    .then(data => setCurrentChat(data)) 
-    .catch(error => console.error('Error fetching posts:', error));
+      .then(response => response.json())
+      .then(data => {
+        setCurrentChat(data);
+        if (data.chad.username === currentUser) {
+          setChad(true);
+        } else {
+          setChad(false);
+        }
+      })
+      .catch(error => console.error('Error fetching posts:', error));
   }
+  
 
   useEffect(() => {
     fetchChat()
@@ -141,7 +150,7 @@ const visitUser = (userid) => {
                   <Link to="/getuser" >
                     <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
                       <img src={user.profilePic.url} />
-                      <p>{user.username}</p>
+                      <p>@{user.username}</p>
                     </div>
                   </Link>
                 </li>

@@ -3,7 +3,7 @@ import styles from '../styles/home.module.css';
 import { formatDistanceToNow } from 'date-fns';
 
 const Home = ({
-  JWT, setChats, 
+  JWT, chats, setChats, 
   chatID, 
   currentUser, setCurrentUser, 
   allUsers, setAllUsers,
@@ -14,8 +14,26 @@ const Home = ({
   editingWindow, setEditingWindow,
   chatName, setChatName,
   addUsers, setAddUsers,
-  usersToAdd, setUsersToAdd
+  usersToAdd, setUsersToAdd,
+  chad, setChad
 }) => {
+
+  console.log(chad)
+
+  const [userObject, setUserObject] = useState()
+
+  const findCurrentUser = () => {
+  for (let i = 0; i < allUsers.length; i++) {
+    if (allUsers[i].username === currentUser) {
+      return allUsers[i]
+    }
+  }
+}
+
+useEffect(() => {
+  let result = findCurrentUser()
+  setUserObject(result)
+}, [currentChat])
 
   const [currentChatUsers, setCurrentChatUsers] = useState([])
 
@@ -154,7 +172,7 @@ const addSelectedUsers = () => {
     fetch(`http://localhost:3000/${chatID}/${usersToAdd[i]}/addtochat`, options)
     .then(response => response.json())
     .then(data => console.log(data)) 
-    .catch(error => console.error('Error fetching posts:', error));
+    .catch(error => console.error('Error adding user:', error));
   }
   setUsersToAdd([])
   setAddUsers(false)
@@ -170,6 +188,19 @@ useEffect(() => {
 }, [currentChat]);
 
 
+const kickUser = async (userid) => {
+  try {
+    const response = await fetch(`http://localhost:3000/${chatID}/${userid}/kickfromchat`, options);
+    if (!response.ok) {
+      throw new Error('Failed to kick user from chat');
+    }
+    const data = await response.json();
+    setCurrentChat(data.updatedChat);
+    fetchChat();
+  } catch (error) {
+    console.error('Error kicking user:', error.message);
+  }
+}
 
   return (
     <>
@@ -180,22 +211,22 @@ useEffect(() => {
           {currentChat !== undefined && <img id={styles.gcImage} src={currentChat.image.url} />}
         </div>
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
-        <div className={styles.userMessage} key={index}>
-          <div className={message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
-            <p>{message.writer.username}</p>
-            <p>{formatDate(message.dateSent)}</p>
-          </div>
-          <div className={message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
-            <div className={message.writer.username !== currentUser ? styles.messageAndImageContainerInbound : styles.messageAndImageContainerOutbound}>
-              <div className={styles.messageBubble}>
-                {message.messageContent ? <p>{message.messageContent}</p> : ''}
-              </div>
-              <div className={message.writer.username !== currentUser ? styles.imageBubbleInbound : styles.imageBubbleOutbound}>
-                {message.image.url ? <img id={styles.userSentImage} src={message.image.url}></img> : ''}
+          <div className={styles.userMessage} key={index}>
+            <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
+              {message.writer && <p>{message.writer.username}</p>}
+              <p>{message.dateSent && formatDate(message.dateSent)}</p>
+            </div>
+            <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
+              <div className={message.writer && message.writer.username !== currentUser ? styles.messageAndImageContainerInbound : styles.messageAndImageContainerOutbound}>
+                <div className={styles.messageBubble}>
+                  {message.messageContent ? <p>{message.messageContent}</p> : ''}
+                </div>
+                <div className={message.image && message.image.url ? (message.writer && message.writer.username !== currentUser ? styles.imageBubbleInbound : styles.imageBubbleOutbound) : ''}>
+                  {message.image && message.image.url ? <img id={styles.userSentImage} src={message.image.url}></img> : ''}
+                </div>
               </div>
             </div>
           </div>
-        </div>
         ))}
         <div className={styles.sendMessageContainer}>
         <form>
@@ -246,6 +277,7 @@ useEffect(() => {
               </form>
             </>
           )}
+        <button onClick={() => kickUser(userObject._id)}>Leave Chat</button>
         <button onClick={() => handleAddUsersClick()}>Add Users</button>
         {addUsers === true ? <div className={styles.addUsersList}>
           {allUsers && allUsers.map((user) => (
@@ -269,8 +301,9 @@ useEffect(() => {
           {currentChat !== undefined && currentChat.users.map((user, index) => (
           !currentChatUsers.includes(user._id) ? 
           <div className={styles.userInfo} key={index}>
-            <img src={user.profilePic.url} />
+            {user.profilePic !== undefined && <img src={user.profilePic.url} />}
             <p>{user.username}</p>
+            {chad === true && <button onClick={() => kickUser(user._id)}>Kick</button>}
           </div> : null
         ))}
         </div>
