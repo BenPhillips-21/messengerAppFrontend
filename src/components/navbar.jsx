@@ -159,7 +159,7 @@ const addSelectedUsers = async () => {
           <Link to="/currentuser" className={styles.navLink}>Profile</Link>
         </li>
         <li className={styles.navItem}>
-          <Link to="/sign-up" className={styles.navLink}>Sign Up</Link>
+          <Link to="/" className={styles.navLink}>Sign Up</Link>
         </li>
         <li className={styles.navItem}>
           <Link to="/login" className={styles.navLink}>Login</Link>

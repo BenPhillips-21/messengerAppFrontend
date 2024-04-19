@@ -13,10 +13,12 @@ const Home = ({
   selectedChatImage, setSelectedChatImage,
   editingWindow, setEditingWindow,
   chatName, setChatName,
-  addUsers, setAddUsers,
+  // addUsers, setAddUsers,
   usersToAdd, setUsersToAdd,
   chad, setChad
 }) => {
+
+  const [addUserss, setAddUserss] = useState(false)
 
   console.log(chad)
 
@@ -147,11 +149,11 @@ const handleChangeChatName = async (e) => {
   }
 }
 
-const handleAddUsersClick = async () => {
-  if (addUsers === false) {
-    setAddUsers(true)
+const handleaddUserssClick = async () => {
+  if (addUserss === false) {
+    setAddUserss(true)
   } else {
-    setAddUsers(false)
+    setAddUserss(false)
     setUsersToAdd([])
   }
 }
@@ -166,17 +168,20 @@ const handleCheckToggle = (userID) => {
   }
 };
 
-const addSelectedUsers = () => {
-  for (let i = 0; i < usersToAdd.length; i++) {
-    console.log(usersToAdd[i])
-    fetch(`http://localhost:3000/${chatID}/${usersToAdd[i]}/addtochat`, options)
-    .then(response => response.json())
-    .then(data => console.log(data)) 
-    .catch(error => console.error('Error adding user:', error));
+const addSelectedUsers = async () => {
+  try {
+    for (let i = 0; i < usersToAdd.length; i++) {
+      console.log(usersToAdd[i]);
+      const response = await fetch(`http://localhost:3000/${chatID}/${usersToAdd[i]}/addtochat`, options);
+      const data = await response.json();
+      setCurrentChat(data.updatedChat);
+    }
+    setUsersToAdd([]);
+    setAddUserss(false);
+    fetchChat();
+  } catch (error) {
+    console.error('Error adding user:', error);
   }
-  setUsersToAdd([])
-  setAddUsers(false)
-  fetchChat()
 }
 
 useEffect(() => {
@@ -296,8 +301,8 @@ const deleteMsg = async (messageid) => {
             </>
           )}
         <button onClick={() => kickUser(userObject._id)}>Leave Chat</button>
-        {chad === true && <button onClick={() => handleAddUsersClick()}>Add Users</button>}
-        {addUsers === true ? <div className={styles.addUsersList}>
+        {chad === true && <button onClick={() => handleaddUserssClick()}>Add Users</button>}
+        {addUserss === true ? <div className={styles.addUsersList}>
           {allUsers && allUsers.map((user) => (
               !currentChatUsers.includes(user.username) ? (
                 <li id={styles.usersToAddListItems} key={user._id}>
