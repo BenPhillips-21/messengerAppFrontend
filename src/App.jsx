@@ -8,6 +8,7 @@ import UserProfile from './components/userprofile';
 import GetUser from './components/getuser'
 import Register from './components/register';
 import Login from './components/login';
+import Redirect from './components/redirect';
 
 function App() {
   const [JWT, setJWT] = useState(null);
@@ -48,7 +49,8 @@ function App() {
             usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}
           />}
             <Routes>
-              <Route path="/" element={<Register JWT={JWT} setJWT={setJWT} />} />
+              <Route path="/" element={<Redirect />} />
+              <Route path="/sign-up" element={<Register JWT={JWT} setJWT={setJWT} />} />
               <Route path="/home" element={<Home 
               JWT={JWT}
               chad={chad}
