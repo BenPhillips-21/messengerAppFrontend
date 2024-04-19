@@ -107,14 +107,14 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
                     <button onClick={() => startChat()}>Chat With {user.username}</button>
                 </div>
                 }
-                {/* <h3>Shared Chats:</h3>
-                {sharedChats !== undefined && 
+                <h3>Shared Chats:</h3>
+                {sharedChats !== undefined && sharedChats.length > 0 && 
                 sharedChats.map((leChat, index) => (
                     <div onClick={() => visitChat(leChat._id)} key={index}>
                     {leChat.chatName}
                     </div>
                 ))
-                } */}
+                }
             </div>
         </div>
       </>

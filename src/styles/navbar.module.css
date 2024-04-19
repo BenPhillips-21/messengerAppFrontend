@@ -29,6 +29,8 @@
     background-color: #41729F;
     height: 100vh;
     width: 22vw;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .menu {

@@ -44,6 +44,8 @@ function App() {
             addUsers={addUsers} setAddUsers={setAddUsers}
             userToGet={userToGet} setUserToGet={setUserToGet}
             chad={chad} setChad={setChad}
+            addUsers={addUsers} setAddUsers={setAddUsers}
+            usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}
           />}
           <Routes>
             <Route path="/home" element={<Home 

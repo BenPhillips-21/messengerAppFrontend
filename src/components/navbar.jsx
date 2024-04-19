@@ -15,7 +15,9 @@ const Navbar = ({
   selectedChatImage, 
   chatName,
   userToGet, setUserToGet,
-  chad, setChad
+  chad, setChad,
+  addUsers, setAddUsers,
+  usersToAdd, setUsersToAdd,
 }) => {
 
   const navigate = useNavigate();
@@ -29,6 +31,11 @@ const Navbar = ({
     headers: headers,
     mode: 'cors'
   };
+  const createChatOptions = {
+    method: 'POST',
+    headers: headers,
+    mode: 'cors'
+  }
 
   const handleMenuClick = (menuValue) => {
     setMenu(menuValue)
@@ -96,6 +103,51 @@ const visitUser = (userid) => {
   setUserToGet(userid)
 }
 
+const handleAddUsersClick = async () => {
+  if (addUsers === false) {
+    setAddUsers(true)
+  } else {
+    setAddUsers(false)
+    setUsersToAdd([])
+  }
+}
+
+const handleCheckToggle = (userID) => {
+  if (!usersToAdd.includes(userID)) {
+    usersToAdd.push(userID)
+    setUsersToAdd(usersToAdd)
+  } else {
+    const filteredArray = usersToAdd.filter(item => item !== userID);
+    setUsersToAdd(filteredArray)
+  }
+};
+
+const addSelectedUsers = async () => {
+  let gcID;
+
+  await fetch(`http://localhost:3000/createchat/${usersToAdd[0]}`, createChatOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      gcID = data.chat._id;
+    })
+    .catch(error => console.error('Error creating chat', error));
+
+  if (gcID) {
+    for (let i = 1; i < usersToAdd.length; i++) {
+      fetch(`http://localhost:3000/${gcID}/${usersToAdd[i]}/addtochat`, options)
+        .then(response => response.json())
+        .then(data => console.log(data)) 
+        .catch(error => console.error('Error adding user:', error));
+    }
+  }
+  setUsersToAdd([]);
+  setAddUsers(false);
+  setChatID(gcID)
+  fetchChat();
+};
+
+
   return (
     <>
     <nav className={styles.navbar}>
@@ -118,7 +170,7 @@ const visitUser = (userid) => {
       <div className={styles.chatContainer}>
         <div className={styles.menu}>
           <button onClick={() => handleMenuClick("yourChats")}>Your Chats</button>
-          <button onClick={() => handleMenuClick("otherUsers")}>Users</button>
+          <button onClick={() => handleMenuClick("otherUsers")}>Start Chat</button>
         </div>
         {menu === "yourChats" ? chats.map((chat, index) => (
           <div onClick={() => handleChatClick(chat._id)} className={styles.messageCard} key={index}>
@@ -145,7 +197,23 @@ const visitUser = (userid) => {
           </div>
         )) : 
           <div>
-              {allUsers && allUsers.map((user) => (
+              {<button onClick={() => handleAddUsersClick()}>Add Users</button>}
+              {addUsers === true ? <div className={styles.addUsersList}>
+                {allUsers && allUsers.map((user) => ((
+                      <li id={styles.usersToAddListItems} key={user._id}>
+                        <label>
+                          {user.username}
+                          <input
+                            type="checkbox"
+                            onChange={() => handleCheckToggle(user._id)}
+                          />
+                        </label>
+                      </li>
+                    )
+                  ))}
+                <button onClick={() => addSelectedUsers()}>Add Selected Users</button>
+              </div> : ''}
+              {addUsers === false && allUsers && allUsers.map((user) => (
                 <li id={styles.usersToAddListItems} key={user._id}>
                   <Link to="/getuser" >
                     <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
