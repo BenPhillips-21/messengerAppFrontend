@@ -234,6 +234,7 @@ const deleteMsg = async (messageid) => {
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
+              <img id={styles.profilePic} src={message.writer.profilePic.url}></img>
               {message.writer && <p>{message.writer.username}</p>}
               <p>{message.dateSent && formatDate(message.dateSent)}</p>
             </div>

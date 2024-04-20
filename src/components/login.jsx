@@ -11,6 +11,27 @@ const Login = ({ setJWT }) => {
     const [response, setResponse] = useState('');
     const [error, setError] = useState(false)
     const navigate = useNavigate();
+
+    const demoLogin = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/demologin', {
+              method: 'POST',
+            });
+      
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+      
+            const data = await response.json();
+            setResponse(data);
+            setJWT(data.token)
+            setLoading(false);
+            navigate('/home');
+          } catch (error) {
+            console.error('Error:', error);
+            setLoading(false);
+          }
+    }
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -63,9 +84,9 @@ const Login = ({ setJWT }) => {
                         />
                         {error && <p>Username or password incorrect.</p>}
                         {!loading && <button>Submit</button>}
-                        {loading && <button disabled>Registering...</button>}
-                        <button>Login as Demo User</button>
+                        {loading && <button disabled>Logging in...</button>}
                     </form>
+                    <button onClick={() => {demoLogin()}}>Login as Demo User</button>
                 </div>
               </div>
               <div className={styles.sitePreview}>
