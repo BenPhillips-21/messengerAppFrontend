@@ -6,7 +6,7 @@
 
 .messagesContainer {
     background-color: #C3E0E5;
-    width: 54vw;
+    width: 57vw;
     display: flex;
     flex-direction: column;
     overflow-y: auto;

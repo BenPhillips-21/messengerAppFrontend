@@ -150,27 +150,13 @@ const addSelectedUsers = async () => {
 
   return (
     <>
-    <nav className={styles.navbar}>
-      <ul className={styles.navList}>
-        <li className={styles.navItem}>
-          <Link to="/home" className={styles.navLink}>Home</Link>
-        </li>
-        <li className={styles.navItem}>
-          <Link to="/currentuser" className={styles.navLink}>Profile</Link>
-        </li>
-        <li className={styles.navItem}>
-          <Link to="/" className={styles.navLink}>Sign Up</Link>
-        </li>
-        <li className={styles.navItem}>
-          <Link to="/login" className={styles.navLink}>Login</Link>
-        </li>
-      </ul>
-    </nav>
     { JWT &&
       <div className={styles.chatContainer}>
         <div className={styles.menu}>
           <button onClick={() => handleMenuClick("yourChats")}>Your Chats</button>
           <button onClick={() => handleMenuClick("otherUsers")}>Start Chat</button>
+          <button onClick={() => navigate('/currentuser')}>My Profile</button>
+          <button>Logout</button>
         </div>
         {menu === "yourChats" ? chats.map((chat, index) => (
           <div onClick={() => handleChatClick(chat._id)} className={styles.messageCard} key={index}>

@@ -70,6 +70,7 @@ useEffect(() => {
     try {
         const response = await fetch(`http://localhost:3000/${chatID}/sendmessage`, {
             method: 'POST',
+            mode: 'cors', 
             headers: { 
                 'Authorization': `Bearer ${JWT}`
             },
@@ -132,6 +133,7 @@ const handleChangeChatName = async (e) => {
   try {
     const response = await fetch(`http://localhost:3000/${chatID}/changechatname`, {
       method: 'POST',
+      mode: 'cors', 
       headers: { 
         'Authorization': `Bearer ${JWT}`,
         'Content-Type': 'application/json'
