@@ -9,6 +9,8 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
   const [usernameContent, setUsernameContent] = useState('');
   const [bioContent, setBioContent] = useState('');
   const [newName, setNewName] = useState('');
+  const [changingPFP, setChangingPFP] = useState(false)
+  const [selectedImage, setSelectedImage] = useState()
 
   console.log(JWT, 'jwt');
 
@@ -87,12 +89,58 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
     }
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]; 
+    setSelectedImage(file); 
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    let image = selectedImage
+    const formData = new FormData();
+    formData.append('image', image)
+    try {
+        const response = await fetch(`http://localhost:3000/updateprofilepicture`, {
+            method: 'POST',
+            mode: 'cors', 
+            headers: { 
+                'Authorization': `Bearer ${JWT}`
+            },
+            body: (formData)
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData}`);
+          }  
+        
+        setSelectedImage(null)
+        setChangingPFP(false)
+        setEditing(false)
+        fetchUser()
+    } catch (err) {
+        throw new Error(`${err}`);
+    }
+}
+
   return (
     <>
       {userState &&
         <div>
           <img src={userState.profilePic.url}></img>
-          {editing === true ? <p>editing</p> : ''}
+          {editing === true && <button onClick={() => changingPFP === false ? setChangingPFP(true) : setChangingPFP(false)}>Change Profile Picture</button>}
+          {changingPFP === true && 
+                    <form>
+                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                    {selectedImage && (
+                      <div>
+                        <p>Selected Image:</p>
+                        <img style={{'width': '50%'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                      </div>
+                    )}
+                    <button onClick={handleSubmit}>Send</button>
+                </form>
+          }
           <h1>{newName ? newName : userState.username}</h1>
           {editing === true && <button onClick={() => editingUsername === false ? setEditingUsername(true) : setEditingUsername(false)}>Edit My Username</button>}
           {editingUsername === true &&
