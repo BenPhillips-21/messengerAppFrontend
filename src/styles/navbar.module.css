@@ -49,6 +49,15 @@
   flex-direction: row;
 }
 
+.activeMessageCard {
+  width: 100%;
+  height: 5rem;
+  background-color: purple;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
 .chatImage {
   width: 20%;
 }

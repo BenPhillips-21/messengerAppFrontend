@@ -12,7 +12,7 @@ import Redirect from './components/redirect';
 
 function App() {
   const [JWT, setJWT] = useState(null);
-  const [menu, setMenu] = useState(true)
+  const [menu, setMenu] = useState("yourChats")
   const [chats, setChats] = useState([])
   const [chatID, setChatID] = useState()
   const [currentUser, setCurrentUser] = useState()

@@ -223,18 +223,20 @@ const deleteMsg = async (messageid) => {
   }
 }
 
+console.log(currentChat, 'current chat')
+
   return (
     <>
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
         <div className={styles.chatHeader}>
           <p>{currentChat !== undefined && currentChat.chatName}</p>
-          {currentChat !== undefined && <img id={styles.gcImage} src={currentChat.image.url} />}
+          <p>{currentChat !== undefined ? currentChat.users.length < 3 && currentChat.users[0].username === currentUser ? currentChat.users[1].username : currentChat.users[0].username : ''}</p>
         </div>
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
-              <img id={styles.profilePic} src={message.writer.profilePic.url}></img>
+            {message.writer && <img id={styles.profilePic} src={message.writer.profilePic.url}></img>}
               {message.writer && <p>{message.writer.username}</p>}
               <p>{message.dateSent && formatDate(message.dateSent)}</p>
             </div>
@@ -249,6 +251,10 @@ const deleteMsg = async (messageid) => {
               </div>
             </div>
             {chad === true && 
+            <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
+              <button onClick={() => deleteMsg(message._id)}>Delete</button>
+            </div>}
+            {chad === false && message.writer.username === currentUser &&
             <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
               <button onClick={() => deleteMsg(message._id)}>Delete</button>
             </div>}

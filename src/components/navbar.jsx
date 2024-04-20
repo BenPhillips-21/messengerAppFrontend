@@ -20,6 +20,8 @@ const Navbar = ({
   usersToAdd, setUsersToAdd,
 }) => {
 
+  const [activeItem, setActiveItem] = useState('');
+
   const navigate = useNavigate();
 
   const headers = {
@@ -88,6 +90,7 @@ const Navbar = ({
   const handleChatClick = (chatid) => {
     console.log(chatid)
     setChatID(chatid)
+    setActiveItem(chatid);
     navigate('/home')
   }
 
@@ -147,7 +150,7 @@ const addSelectedUsers = async () => {
   fetchChat();
 };
 
-
+console.log(activeItem, 'active item')
   return (
     <>
     { JWT &&
@@ -158,8 +161,14 @@ const addSelectedUsers = async () => {
           <button onClick={() => navigate('/currentuser')}>My Profile</button>
           <button>Logout</button>
         </div>
-        {menu === "yourChats" ? chats.map((chat, index) => (
-          <div onClick={() => handleChatClick(chat._id)} className={styles.messageCard} key={index}>
+        {menu === "yourChats" ? chats
+        .sort((a, b) => {
+          const dateA = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].dateSent) : new Date(0);
+          const dateB = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].dateSent) : new Date(0);
+          return dateB - dateA;
+      })
+        .map((chat, index) => (
+          <div onClick={() => handleChatClick(chat._id)} className={activeItem === chat._id ? styles.activeMessageCard : styles.messageCard} key={index}>
             <div className={styles.chatImage}>
               {chat.users.length > 2 ? <img src={chat.image.url}></img> : <img src={getInboundUserPfp(chat.users)}></img>}
             </div>
@@ -173,7 +182,9 @@ const addSelectedUsers = async () => {
                 ))}
               </div>
               {chat.messages.length > 0 ? <div className={styles.lastMsg}>
-                <p>{chat.messages[chat.messages.length - 1].messageContent}</p>
+                {chat.messages[chat.messages.length - 1].messageContent === "" ? 
+                <p>{chat.messages[chat.messages.length - 2].messageContent}</p> :
+                <p>{chat.messages[chat.messages.length - 1].messageContent}</p>}
               </div> : <p>No messages sent in this chat</p>}
             </div>
             {chat.messages.length > 0 ? <div className={styles.lastActiveContainer}>
