@@ -27,6 +27,8 @@ function App() {
   const [usersToAdd, setUsersToAdd] = useState([])
   const [userToGet, setUserToGet] = useState(null)
   const [chad, setChad] = useState(false)
+  const [activeItem, setActiveItem] = useState('');
+
   const location = useLocation();
   const showNavbar = !['/sign-up', '/login'].includes(location.pathname);
 
@@ -47,6 +49,7 @@ function App() {
             chad={chad} setChad={setChad}
             addUsers={addUsers} setAddUsers={setAddUsers}
             usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}
+            activeItem={activeItem} setActiveItem={setActiveItem}
           />}
             <Routes>
               <Route path="/" element={<Redirect />} />
@@ -66,7 +69,7 @@ function App() {
               chatName={chatName} setChatName={setChatName}
               addUsers={addUsers} setAddUsers={setAddUsers}
               usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}/>} />
-              <Route path="/getuser" element={<GetUser JWT={JWT} setCurrentChat={setCurrentChat} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser} setChatID={setChatID} setMenu={setMenu}/>} />
+              <Route path="/getuser" element={<GetUser JWT={JWT} setCurrentChat={setCurrentChat} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser} setChatID={setChatID} setMenu={setMenu} activeItem={activeItem} setActiveItem={setActiveItem}/>} />
               <Route path="/currentuser" element={<UserProfile JWT={JWT} setJWT={setJWT} setCurrentUser={setCurrentUser}/>} />
               <Route path="/login" element={<Login JWT={JWT} setJWT={setJWT} />} />
             </Routes>

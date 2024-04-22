@@ -18,9 +18,8 @@ const Navbar = ({
   chad, setChad,
   addUsers, setAddUsers,
   usersToAdd, setUsersToAdd,
+  activeItem, setActiveItem
 }) => {
-
-  const [activeItem, setActiveItem] = useState('');
 
   const navigate = useNavigate();
 

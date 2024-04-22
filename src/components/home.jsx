@@ -230,6 +230,7 @@ console.log(currentChat, 'current chat')
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
       {currentChat === undefined && <h1>Select a Chat</h1>}
+      {currentChat !== undefined && currentChat.messages.length === 0 && <h1>Well... say something!</h1>}
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
@@ -338,13 +339,13 @@ console.log(currentChat, 'current chat')
       : '' }
           {currentChat && <h3>Users in Chat:</h3>}
           {currentChat !== undefined && currentChat.users.map((user, index) => (
-          !currentChatUsers.includes(user._id) ? 
+          !currentChatUsers.includes(user._id) && user.username !== currentUser ? 
           <div className={styles.userInfo} key={index}>
             {user.profilePic !== undefined && <img src={user.profilePic.url} />}
             <p>@{user.username}</p>
             {chad === true && <button onClick={() => kickUser(user._id)}><img id={styles.kickButton} src="/x-symbol.svg" alt="X Icon" /></button>}
           </div> : null
-        ))}
+          ))}
         </div>
       </div>
     </>

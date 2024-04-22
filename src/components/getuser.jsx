@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/getuser.module.css';
 
-const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, setMenu, setCurrentChat}) => {
+const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, setMenu, setCurrentChat, activeItem, setActiveItem}) => {
     const [user, setUser] = useState(null)
     const [sharedChats, setSharedChats] = useState()
 
@@ -68,6 +68,7 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
                 .then(response => response.json())
                 .then(data => {
                     setChatID(data.chat._id);
+                    setActiveItem(data.chat._id)
                     setMenu("yourChats");
                     setCurrentChat(data.chat);
                     console.log(data)

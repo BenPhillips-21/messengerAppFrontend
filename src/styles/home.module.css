@@ -15,9 +15,14 @@
     overflow-x: hidden;
 }
 
+.messagesContainer h1 {
+    color: black;
+}
+
 #profilePic {
     width: 2.5rem;
     border-radius: 50%;
+    margin-top: 0.5rem;
 }
 
 #userSentImage {
@@ -152,6 +157,10 @@
     align-items: flex-start;
 }
 
+.msgInfoInbound p {
+    margin-left: 0.2rem;
+}
+
 .messageContentInbound {
     background-color: #EBE8E0;
     width: 45%;
@@ -211,6 +220,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-top: -0.9rem;
 }
 
 .messageAndImageContainerOutbound {
@@ -218,6 +228,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-top: -0.9rem;
 }
 
 .messageBubble {
