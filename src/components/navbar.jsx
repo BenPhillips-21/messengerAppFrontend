@@ -178,17 +178,34 @@ const addSelectedUsers = async () => {
             </div>
             <div className={styles.chatName}>
               <div className={styles.userNames}>
-                {chat.chatName !== undefined ? <p>{chat.chatName}</p> : 
-                chat.users.map((user, ind) => (
-                  <div key={ind}>
-                    {user.username !== currentUser ? <p>@{user.username}</p> : ''}
-                  </div>
-                ))}
+              {chat.chatName !== undefined ? (
+                <p>{chat.chatName}</p>
+              ) : (
+                <>
+                  {chat.users.slice(0, 2).map((user, ind) => (
+                    <div key={ind}>
+                      {user.username !== currentUser ? (
+                        <p>@{user.username}</p>
+                      ) : ''}
+                    </div>
+                  ))}
+                  {chat.users.length > 2 && (
+                    <div>
+                      <p>@{chat.users[2].username}</p>
+                    </div>
+                  )}
+                  {chat.users.length > 3 && (
+                    <div>
+                      <p>...</p>
+                    </div>
+                  )}
+                </>
+              )}
               </div>
               {chat.messages.length > 0 ? <div className={styles.lastMsg}>
                 {chat.messages[chat.messages.length - 1].messageContent === "" ? 
-                <p>{chat.messages[chat.messages.length - 2].messageContent}</p> :
-                <p>{chat.messages[chat.messages.length - 1].messageContent}</p>}
+                <p>{chat.messages[chat.messages.length - 2].messageContent.slice(0, 30)}</p> :
+                <p>{chat.messages[chat.messages.length - 1].messageContent.slice(0, 30)}</p>}
               </div> : <p>No messages sent in this chat</p>}
             </div>
             {chat.messages.length > 0 ? <div className={styles.lastActiveContainer}>

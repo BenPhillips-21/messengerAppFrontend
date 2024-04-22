@@ -6,7 +6,7 @@
 }
 
 .messagesContainer {
-    background-color: #C3E0E5;
+    background-color: #EBE8E0;
     width: 57vw;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
 
 .chatInfoAndSettings {
     width: 16.5vw;
-    background-color: purple;
+    background-color: #EBE8E0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,7 +51,7 @@
 }
 
 .allUsersList {
-    background-color: purple;
+    background-color: #EBE8E0;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -67,7 +67,7 @@
 }
 
 .editingWindow {
-    background-color: blanchedalmond;
+    background-color: #EBE8E0;
 }
 
 .userMessage {
@@ -94,7 +94,7 @@
 }
 
 .messageContentInbound {
-    background-color: purple;
+    background-color: #EBE8E0;
     width: 45%;
     display: flex;
     justify-content: flex-start;
@@ -120,7 +120,7 @@
 }
 
 .messageContentOutbound {
-    background-color: pink;
+    background-color: #EBE8E0;
     margin-left: 54%;
     width: 45%;
     display: flex;
@@ -143,7 +143,7 @@
 }
 
 .messageBubble {
-    background-color: red;
+    background-color: #EBE8E0;
     margin: 1rem;
 }
 
@@ -175,7 +175,7 @@
 .messageCard {
     width: 100%;
     height: 5rem;
-    background-color: pink;
+    background-color: #EBE8E0;
     border: 2px solid black;
     display: flex;
     flex-direction: row;
