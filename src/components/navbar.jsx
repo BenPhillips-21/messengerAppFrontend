@@ -5,7 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 
 const Navbar = ({
-  JWT,
+  JWT, setJWT,
   menu, setMenu, 
   chats, setChats, 
   chatID, setChatID, 
@@ -150,7 +150,11 @@ const addSelectedUsers = async () => {
   fetchChat();
 };
 
-console.log(activeItem, 'active item')
+  const handleLogout = () => {
+    setJWT('')
+    navigate('/login')
+  }
+
   return (
     <>
     { JWT &&
@@ -159,7 +163,7 @@ console.log(activeItem, 'active item')
           <button onClick={() => handleMenuClick("yourChats")}>Your Chats</button>
           <button onClick={() => handleMenuClick("otherUsers")}>Start Chat</button>
           <button onClick={() => navigate('/currentuser')}>My Profile</button>
-          <button>Logout</button>
+          <button onClick={() => handleLogout()}>Logout</button>
         </div>
         {menu === "yourChats" ? chats
         .sort((a, b) => {

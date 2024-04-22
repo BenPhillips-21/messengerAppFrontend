@@ -33,7 +33,7 @@ function App() {
   return (
         <>
           {showNavbar && <Navbar 
-            JWT={JWT}
+            JWT={JWT} setJWT={setJWT}
             menu={menu} setMenu={setMenu} 
             chats={chats} setChats={setChats} 
             chatID={chatID} setChatID={setChatID} 

@@ -229,6 +229,7 @@ console.log(currentChat, 'current chat')
     <>
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
+      {currentChat === undefined && <h1>Select a Chat</h1>}
         <div className={styles.chatHeader}>
           <p>{currentChat !== undefined && currentChat.chatName}</p>
           <p>{currentChat !== undefined ? currentChat.users.length < 3 && currentChat.users[0].username === currentUser ? currentChat.users[1].username : currentChat.users[0].username : ''}</p>
@@ -260,25 +261,25 @@ console.log(currentChat, 'current chat')
             </div>}
           </div>
         ))}
-        <div className={styles.sendMessageContainer}>
-        <form>
-            <label>Send Message:</label>
-            <input 
-                type="text"
-                required
-                value={newMessageContent}
-                onChange={(e) => setNewMessageContent(e.target.value)}
-            />
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            {selectedImage && (
-              <div>
-                <p>Selected Image:</p>
-                <img style={{'width': '50%'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
-              </div>
-            )}
-            <button onClick={handleSubmit}>Send</button>
-        </form>
-        </div>
+        {currentChat && <div className={styles.sendMessageContainer}>
+          <form>
+              <label>Send Message:</label>
+              <input 
+                  type="text"
+                  required
+                  value={newMessageContent}
+                  onChange={(e) => setNewMessageContent(e.target.value)}
+              />
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+              {selectedImage && (
+                <div>
+                  <p>Selected Image:</p>
+                  <img style={{'width': '50%'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                </div>
+              )}
+              <button onClick={handleSubmit}>Send</button>
+          </form>
+        </div>}
         </div>
         <div className={styles.chatInfoAndSettings}>
         {currentChat !== undefined ? <button onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>Chat Settings</button> : ''}
@@ -329,7 +330,7 @@ console.log(currentChat, 'current chat')
         </div> : ''}
         </div>
       : '' }
-          <h3>Users in Chat:</h3>
+          {currentChat && <h3>Users in Chat:</h3>}
           {currentChat !== undefined && currentChat.users.map((user, index) => (
           !currentChatUsers.includes(user._id) ? 
           <div className={styles.userInfo} key={index}>
