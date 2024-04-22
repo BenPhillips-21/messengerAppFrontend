@@ -102,16 +102,19 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
                 {user && 
                 <div>
                     <img src={user.profilePic.url}></img>
-                    <h1>{user.username}</h1>
+                    <h1>@{user.username}</h1>
                     <h2>{user.bio}</h2>
                     <button onClick={() => startChat()}>Chat With {user.username}</button>
                 </div>
                 }
-                <h3>Shared Chats:</h3>
+                
+                {sharedChats !== undefined && sharedChats.length > 0 && <h3>Shared Chats:</h3>}
                 {sharedChats !== undefined && sharedChats.length > 0 && 
                 sharedChats.map((leChat, index) => (
                     <div onClick={() => visitChat(leChat._id)} key={index}>
-                    {leChat.chatName}
+                    <ul>
+                      <li>{leChat.chatName}</li>
+                    </ul>
                     </div>
                 ))
                 }

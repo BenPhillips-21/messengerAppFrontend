@@ -1,0 +1,23 @@
+.userProfileContainer {
+    width: 71vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15rem;
+}
+
+.userProfileContainer img {
+    border-radius: 50%;
+    width: 10rem;
+}
+
+.userProfileContainer button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.userProfileContainer button:hover {
+    text-decoration: underline;
+}

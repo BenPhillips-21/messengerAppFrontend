@@ -22,6 +22,8 @@
 
 #userSentImage {
     width: 70%;
+    margin-bottom: 1.75rem;
+    border: 3px solid black;
 }
 
 #gcImage {
@@ -39,6 +41,7 @@
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    border-left: 1px solid black;
 }
 
 .chatInfoAndSettings li {
@@ -46,8 +49,8 @@
 }
 
 #sendButton {
-    transition: transform 0.4s ease; /* Apply transition for smooth rotation */
-    margin-left: -5rem;
+    transition: transform 0.4s ease;
+    margin-left: -4rem;
     border: none;
     outline: none;
 }

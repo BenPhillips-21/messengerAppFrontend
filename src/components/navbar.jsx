@@ -215,7 +215,7 @@ const addSelectedUsers = async () => {
           </div>
         )) : 
           <div>
-              {<button onClick={() => handleAddUsersClick()}>Add Users</button>}
+              {<button id={styles.userListLeftButtons} onClick={() => handleAddUsersClick()}>Start Group Chat</button>}
               {addUsers === true ? <div className={styles.addUsersList}>
                 {allUsers && allUsers.map((user) => ((
                       <li id={styles.usersToAddListItems} key={user._id}>
@@ -229,18 +229,21 @@ const addSelectedUsers = async () => {
                       </li>
                     )
                   ))}
-                <button onClick={() => addSelectedUsers()}>Add Selected Users</button>
+                <button id={styles.userListLeftButtons} onClick={() => addSelectedUsers()}>Add Selected Users</button>
               </div> : ''}
-              {addUsers === false && allUsers && allUsers.map((user) => (
-                <li id={styles.usersToAddListItems} key={user._id}>
-                  <Link to="/getuser" >
-                    <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
-                      <img src={user.profilePic.url} />
-                      <p>@{user.username}</p>
-                    </div>
-                  </Link>
-                </li>
-            ))}
+              <div className={styles.userProfiles}>
+                {addUsers === false && <h3>User Profiles: </h3>}
+                {addUsers === false && allUsers && allUsers.map((user) => (
+                  <li id={styles.usersToAddListItems} key={user._id}>
+                    <Link to="/getuser" >
+                      <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
+                        <img src={user.profilePic.url} />
+                        <p>@{user.username}</p>
+                      </div>
+                    </Link>
+                  </li>
+              ))}
+            </div>
           </div>
         }
       </div> 

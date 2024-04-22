@@ -33,17 +33,38 @@
     overflow-x: hidden;
 }
 
+.chatContainer button {
+  background-color: transparent;
+}
+
+.userProfiles {
+  border-top: 1px solid black;
+  margin-top: 1.5rem;
+}
+
+.userProfiles img {
+  border-radius: 50%;
+}
+
 .menu {
   height: 8.1%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid black;
+  margin-right: 1px solid black;
 }
 
 .menu button {
   background-color: transparent;
   color: black;
+  outline: none;
+  border: none;
+}
+
+.menu button:hover {
+  text-decoration: underline;
 }
 
 .messageCard {
@@ -132,9 +153,28 @@
   justify-content: flex-start;
   width: 60%;
   margin-left: 3rem;
+  margin-top: 1rem;
+}
+
+#userListLeftButtons {
+  border: none;
+  outline: none;
+}
+
+#userListLeftButtons:hover {
+  text-decoration: underline;
+}
+
+.userListLeft p {
+  color: black;
+  margin-left: 0.5rem;
+}
+
+.userListLeft p:hover {
+  text-decoration: underline;
 }
 
 .userListLeft img {
-  width: 25%;
+  width: 20%;
 }
 

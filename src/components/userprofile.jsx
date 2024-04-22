@@ -126,7 +126,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
   return (
     <>
       {userState &&
-        <div>
+        <div className={styles.userProfileContainer}>
           <img src={userState.profilePic.url}></img>
           {editing === true && <button onClick={() => changingPFP === false ? setChangingPFP(true) : setChangingPFP(false)}>Change Profile Picture</button>}
           {changingPFP === true && 
@@ -141,14 +141,15 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
                     <button onClick={handleSubmit}>Send</button>
                 </form>
           }
-          <h1>{newName ? newName : userState.username}</h1>
+          <h1>{newName ? newName : '@' + userState.username}</h1>
           {editing === true && <button onClick={() => editingUsername === false ? setEditingUsername(true) : setEditingUsername(false)}>Edit My Username</button>}
-          {editingUsername === true &&
+          {editing === true && editingUsername === true &&
             <form>
               <label>Set New Username: </label>
               <input
                 type="text"
                 required
+                placeholder='CoolGuy42'
                 value={usernameContent}
                 onChange={(e) => setUsernameContent(e.target.value)}
               />
@@ -157,13 +158,13 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
           }
           <p>{userState.bio}</p>
           {editing === true && <button onClick={() => editingBio === false ? setEditingBio(true) : setEditingBio(false)}>Edit My Bio</button>}
-          {editingBio === true &&
+          {editing === true && editingBio === true &&
             <form>
               <label>Set New Bio: </label>
               <input
                 type="text"
                 required
-                placeholder={userState.bio}
+                placeholder="My new bio..."
                 value={bioContent}
                 onChange={(e) => setBioContent(e.target.value)}
               />

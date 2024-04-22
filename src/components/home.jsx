@@ -264,7 +264,7 @@ console.log(currentChat, 'current chat')
               <input 
                   type="text"
                   required
-                  placeholder='Write message...'
+                  placeholder='Write message here...'
                   value={newMessageContent}
                   onChange={(e) => setNewMessageContent(e.target.value)}
                   rows="1"
@@ -323,7 +323,7 @@ console.log(currentChat, 'current chat')
               !currentChatUsers.includes(user.username) ? (
                 <li id={styles.usersToAddListItems} key={user._id}>
                   <label>
-                    {user.username}
+                    {'@' + user.username}
                     <input
                       type="checkbox"
                       onChange={() => handleCheckToggle(user._id)}
@@ -341,7 +341,7 @@ console.log(currentChat, 'current chat')
           !currentChatUsers.includes(user._id) ? 
           <div className={styles.userInfo} key={index}>
             {user.profilePic !== undefined && <img src={user.profilePic.url} />}
-            <p>{user.username}</p>
+            <p>@{user.username}</p>
             {chad === true && <button onClick={() => kickUser(user._id)}><img id={styles.kickButton} src="/x-symbol.svg" alt="X Icon" /></button>}
           </div> : null
         ))}
