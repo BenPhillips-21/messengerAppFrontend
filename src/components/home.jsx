@@ -230,10 +230,6 @@ console.log(currentChat, 'current chat')
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
       {currentChat === undefined && <h1>Select a Chat</h1>}
-        <div className={styles.chatHeader}>
-          <p>{currentChat !== undefined && currentChat.chatName}</p>
-          <p>{currentChat !== undefined ? currentChat.users.length < 3 && currentChat.users[0].username === currentUser ? currentChat.users[1].username : currentChat.users[0].username : ''}</p>
-        </div>
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
@@ -253,36 +249,44 @@ console.log(currentChat, 'current chat')
             </div>
             {chad === true && 
             <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
-              <button onClick={() => deleteMsg(message._id)}>Delete</button>
+              <button id={styles.deleteButton} onClick={() => deleteMsg(message._id)}><img src="/trash-can.svg" alt="Trash Can Icon" /></button>
             </div>}
             {chad === false && message.writer.username === currentUser &&
             <div className={message.writer && message.writer.username !== currentUser ? styles.messageContentInbound : styles.messageContentOutbound}>
-              <button onClick={() => deleteMsg(message._id)}>Delete</button>
+              <button id={styles.deleteButton} onClick={() => deleteMsg(message._id)}>
+                <img src="/trash-can.svg" alt="Trash Can Icon" />
+              </button>
             </div>}
           </div>
         ))}
         {currentChat && <div className={styles.sendMessageContainer}>
           <form>
-              <label>Send Message:</label>
               <input 
                   type="text"
                   required
+                  placeholder='Write message...'
                   value={newMessageContent}
                   onChange={(e) => setNewMessageContent(e.target.value)}
+                  rows="1"
+                  style={{ resize: 'none', minHeight: '20px', maxHeight: '100px', width: '50%' }}
               />
               <input type="file" accept="image/*" onChange={handleImageChange} />
               {selectedImage && (
                 <div>
                   <p>Selected Image:</p>
-                  <img style={{'width': '50%'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                  <img style={{'width': '15rem'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
                 </div>
               )}
-              <button onClick={handleSubmit}>Send</button>
+              <button id={styles.sendButton} onClick={handleSubmit}>
+                <img id={styles.sendArrow} src="/arrow.svg" alt="Arrow Icon" />
+              </button>
           </form>
         </div>}
         </div>
         <div className={styles.chatInfoAndSettings}>
-        {currentChat !== undefined ? <button onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>Chat Settings</button> : ''}
+        {currentChat !== undefined && <button id={styles.settingsButton} onClick={() => editingWindow === false ? setEditingWindow(true) : setEditingWindow(false)}>
+          <img src="/cogwheel.svg" alt="Settings Icon" />
+        </button>}
         {editingWindow === true ? 
         <div className={styles.editingWindow}>
           {currentChat.users.length > 2 && (
@@ -306,7 +310,9 @@ console.log(currentChat, 'current chat')
                     <img style={{ width: '15%' }} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
                   </div>
                 )}
-                <button onClick={handleChangeChatImage}>Send</button>
+                <button onClick={handleChangeChatImage}>
+                  Send
+                </button>
               </form>
             </>
           )}
@@ -336,7 +342,7 @@ console.log(currentChat, 'current chat')
           <div className={styles.userInfo} key={index}>
             {user.profilePic !== undefined && <img src={user.profilePic.url} />}
             <p>{user.username}</p>
-            {chad === true && <button onClick={() => kickUser(user._id)}>Kick</button>}
+            {chad === true && <button onClick={() => kickUser(user._id)}><img id={styles.kickButton} src="/x-symbol.svg" alt="X Icon" /></button>}
           </div> : null
         ))}
         </div>

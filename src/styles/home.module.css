@@ -17,6 +17,7 @@
 
 #profilePic {
     width: 2.5rem;
+    border-radius: 50%;
 }
 
 #userSentImage {
@@ -31,6 +32,7 @@
 .chatInfoAndSettings {
     width: 16.5vw;
     background-color: #EBE8E0;
+    color: #0A0A00;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,6 +40,59 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.chatInfoAndSettings li {
+    list-style-type: none;
+}
+
+#sendButton {
+    transition: transform 0.4s ease; /* Apply transition for smooth rotation */
+    margin-left: -5rem;
+    border: none;
+    outline: none;
+}
+
+#sendButton:hover {
+    transform: translateX(1rem); /* Rotate and move the arrow down on hover */
+}
+
+#sendArrow {
+    transform: rotate(90deg); /* Rotate the arrow image 90 degrees to the right */
+    width: 1rem; /* Adjust the width as needed */
+}
+
+#kickButton {
+    border-radius: 0px;
+    width: 1.5rem;
+    margin-top: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+#kickButton:hover {
+    transform: translateY(-0.35rem);
+}
+
+#settingsButton {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: transform 1s ease;
+}
+
+#settingsButton:hover {
+    transform: rotate(360deg); 
+}
+
+.chatInfoAndSettings button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.chatInfoAndSettings button img {
+    width: 2.5rem;
+}
+
 
 .userInfo {
     display: flex;
@@ -47,7 +102,9 @@
 }
 
 .userInfo img {
-    width: 20%;
+    width: 15%;
+    border-radius: 50%;
+    margin-right: 0.5rem;
 }
 
 .allUsersList {
@@ -71,7 +128,6 @@
 }
 
 .userMessage {
-    border: 3px solid black;
     width: 100%;
     gap: 0.75rem;
 }
@@ -99,6 +155,25 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+#deleteButton {
+    background-color: transparent;
+    margin-top: -2rem;
+    border: none;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+
+#deleteButton:hover {
+    border: none;
+    outline: none;
+    transform: translateY(-3.5px);
+}
+
+
+#deleteButton img {
+    width: 1.5rem;
 }
 
 .msgInfoInbound p {
@@ -143,8 +218,16 @@
 }
 
 .messageBubble {
-    background-color: #EBE8E0;
+    background-color: #A8BBB0;
     margin: 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+}
+
+.messageBubble p {
+    color:#0A0A00;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .imageBubbleInbound {
@@ -167,9 +250,15 @@
 }
 
 .sendMessageContainer {
-    border: 3px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    color: black;
     width: 100%;
     gap: 0.75rem;
+}
+
+.sendMessageContainer button {
+    background-color: transparent;
 }
 
 .messageCard {
