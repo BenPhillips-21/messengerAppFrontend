@@ -68,6 +68,7 @@ function App() {
               editingWindow={editingWindow} setEditingWindow={setEditingWindow}
               chatName={chatName} setChatName={setChatName}
               addUsers={addUsers} setAddUsers={setAddUsers}
+              activeItem={activeItem} setActiveItem={setActiveItem}
               usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}/>} />
               <Route path="/getuser" element={<GetUser JWT={JWT} setCurrentChat={setCurrentChat} userToGet={userToGet} setUserToGet={setUserToGet} chats={chats} currentUser={currentUser} setChatID={setChatID} setMenu={setMenu} activeItem={activeItem} setActiveItem={setActiveItem}/>} />
               <Route path="/currentuser" element={<UserProfile JWT={JWT} setJWT={setJWT} setCurrentUser={setCurrentUser}/>} />

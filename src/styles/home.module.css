@@ -53,6 +53,10 @@
     list-style-type: none;
 }
 
+.chatInfoAndSettings button:hover {
+    text-decoration: underline;
+}
+
 #sendButton {
     transition: transform 0.4s ease;
     margin-left: -4rem;

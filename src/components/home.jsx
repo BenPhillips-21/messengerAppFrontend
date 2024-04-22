@@ -15,10 +15,13 @@ const Home = ({
   chatName, setChatName,
   // addUsers, setAddUsers,
   usersToAdd, setUsersToAdd,
-  chad, setChad
+  chad, setChad,
+  activeItem, setActiveItem
 }) => {
 
   const [addUserss, setAddUserss] = useState(false)
+  const [showChangeChatName, setShowChangeChatName] = useState(false);
+  const [showChangeChatImage, setShowChangeChatImage] = useState(false);
 
   console.log(chad)
 
@@ -209,6 +212,21 @@ const kickUser = async (userid) => {
   }
 }
 
+const leaveChat = async (userid) => {
+  try {
+    const response = await fetch(`http://localhost:3000/${chatID}/${userid}/kickfromchat`, options);
+    if (!response.ok) {
+      throw new Error('Failed to kick user from chat');
+    }
+    const data = await response.json();
+    setActiveItem(chats[0]._id)
+    setCurrentChat(chats[0])
+    fetchChat();
+  } catch (error) {
+    console.error('Error kicking user:', error.message);
+  }
+}
+
 const deleteMsg = async (messageid) => {
   try {
     const response = await fetch(`http://localhost:3000/${messageid}/deletemessage`, options);
@@ -223,14 +241,23 @@ const deleteMsg = async (messageid) => {
   }
 }
 
-console.log(currentChat, 'current chat')
+const toggleChangeChatName = () => {
+  setShowChangeChatName(!showChangeChatName);
+  setShowChangeChatImage(false); // Close the chat image form if it's open
+};
+
+// Function to toggle the visibility of the chat image form
+const toggleChangeChatImage = () => {
+  setShowChangeChatImage(!showChangeChatImage);
+  setShowChangeChatName(false); // Close the chat name form if it's open
+};
 
   return (
     <>
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
       {currentChat === undefined && <h1>Select a Chat</h1>}
-      {currentChat !== undefined && currentChat.messages.length === 0 && <h1>Well... say something!</h1>}
+      {currentChat !== undefined && currentChat.messages.length === 0 && <h1>Well... say something already!</h1>}
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
@@ -290,34 +317,32 @@ console.log(currentChat, 'current chat')
         </button>}
         {editingWindow === true ? 
         <div className={styles.editingWindow}>
-          {currentChat.users.length > 2 && (
-            <>
-              <form>
-                <label>Change Chat Name:</label>
-                <input 
-                  type="text"
-                  required
-                  value={chatName}
-                  onChange={(e) => setChatName(e.target.value)}
-                />
-                <button onClick={handleChangeChatName}>Send</button>
-              </form>
-              <form>
-                <label>Change Chat Image:</label>
-                <input type="file" accept="image/*" onChange={handleChatImageChange} />
-                {selectedChatImage && (
-                  <div>
-                    <p>Selected Image:</p>
-                    <img style={{ width: '15%' }} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
-                  </div>
-                )}
-                <button onClick={handleChangeChatImage}>
-                  Send
-                </button>
-              </form>
-            </>
-          )}
-        <button onClick={() => kickUser(userObject._id)}>Leave Chat</button>
+        <button onClick={toggleChangeChatName}>Change Chat Name</button>
+        {showChangeChatName && (
+          <form>
+            <input 
+              type="text"
+              required
+              value={chatName}
+              onChange={(e) => setChatName(e.target.value)}
+            />
+            <button onClick={handleChangeChatName}>Submit Name</button>
+          </form>
+        )}
+        <button onClick={toggleChangeChatImage}>Change Chat Image</button>
+        {showChangeChatImage && (
+          <form>
+            <input type="file" accept="image/*" onChange={handleChatImageChange} />
+            {selectedChatImage && (
+              <div>
+                <p>Selected Image:</p>
+                <img style={{ width: '15%' }} src={URL.createObjectURL(selectedChatImage)} alt="Selected" />
+              </div>
+            )}
+            <button onClick={handleChangeChatImage}>Submit Image</button>
+          </form>
+        )}
+        <button onClick={() => leaveChat(userObject._id)}>Leave Chat</button>
         {chad === true && <button onClick={() => handleaddUserssClick()}>Add Users</button>}
         {addUserss === true ? <div className={styles.addUsersList}>
           {allUsers && allUsers.map((user) => (
