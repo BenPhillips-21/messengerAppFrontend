@@ -253,6 +253,8 @@ const toggleChangeChatImage = () => {
   setShowChangeChatName(false); // Close the chat name form if it's open
 };
 
+
+
   return (
     <>
       <div className={styles.fatherContainer}>
@@ -298,13 +300,13 @@ const toggleChangeChatImage = () => {
                   value={newMessageContent}
                   onChange={(e) => setNewMessageContent(e.target.value)}
                   rows="1"
-                  style={{ resize: 'none', minHeight: '20px', maxHeight: '100px', width: '50%' }}
+                  className={styles.messageInput}
               />
               <input type="file" accept="image/*" onChange={handleImageChange} />
               {selectedImage && (
                 <div>
                   <p>Selected Image:</p>
-                  <img style={{'width': '15rem'}} src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                  <img className={styles.selectedImage} src={URL.createObjectURL(selectedImage)} alt="Selected" />
                 </div>
               )}
               <button id={styles.sendButton} onClick={handleSubmit}>

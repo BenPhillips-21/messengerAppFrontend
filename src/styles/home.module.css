@@ -280,7 +280,6 @@
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     color: black;
-    width: 100%;
     gap: 0.75rem;
 }
 
@@ -296,6 +295,166 @@
     display: flex;
     flex-direction: row;
 }
+
+.messageInput {
+    resize: none;
+    min-height: 20px;
+    max-height: 100px;
+    width: 50%;
+  }
+  
+  .selectedImage {
+    width: 15rem;
+  }
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .messagesContainer {
+      width: 80vw;
+    }
+
+    #profilePicInbound {
+        width: 2rem;
+        /* margin: 0px; */
+    }
+
+    #profilePicOutbound {
+        width: 2rem;
+        margin-bottom: 0.2rem;
+    }
+
+    #deleteButton img {
+        width: 1rem;
+    }
+
+    .msgInfoInbound p {
+        font-size: 0.75rem;
+    }
+
+    .messageAndImageContainerInbound p {
+        font-size: 0.75rem;
+    }
+
+    .msgInfoOutbound p {
+        font-size: 0.75rem;
+    }
+
+    .messageAndImageContainerOutbound p {
+        font-size: 0.75rem;
+    }
+
+    .chatInfoAndSettings {
+      width: 20vw;
+    }
+
+    .chatInfoAndSettings p {
+        font-size: 0.75rem;
+    }
+
+    .chatInfoAndSettings h3 {
+        font-size: 0.8rem;
+    }
+
+    .chatInfoAndSettings button {
+        font-size: 0.75rem;
+    }
+  }
+  
+  @media only screen and (max-width: 767px) {
+
+    .fatherContainer {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        overflow-y: auto;
+    }
+
+    .messagesContainer {
+        width: 100vw;
+        height: auto;
+      }
+
+
+    .messageInput {
+        resize: none;
+        min-height: 10px;
+        max-height: 80px;
+        width: 30%;
+      }
+
+    .sendMessageContainer {
+    width: 100%;
+    padding: 0.5rem;
+    }
+
+    .sendMessageContainer input[type="text"] {
+    width: calc(100% - 70px); 
+    font-size: 12px;
+    }
+
+    .sendMessageContainer input[type="file"] {
+        width: calc(100% - 20px); 
+        font-size: 8px;
+        margin-left: 6.5rem;
+        }
+
+        .sendMessageContainer p {
+            font-size: 0.5rem;
+        }
+
+    .selectedImage {
+        width: 5rem;
+    }
+
+    #sendButton {
+        margin-left: 0rem;
+    }
+  
+      #profilePicInbound {
+          width: 1.5rem;
+      }
+  
+      #profilePicOutbound {
+          width: 1.5rem;
+          margin-bottom: 0.2rem;
+      }
+  
+      #deleteButton img {
+          width: 0.7rem;
+      }
+  
+      .msgInfoInbound p {
+        font-size: 0.5rem;
+      }
+  
+      .messageAndImageContainerInbound p {
+        font-size: 0.5rem;
+      }
+  
+      .msgInfoOutbound p {
+        font-size: 0.5rem;
+      }
+  
+      .messageAndImageContainerOutbound p {
+        font-size: 0.5rem;
+      }
+  
+      .chatInfoAndSettings {
+        width: 100vw;
+        border: none;
+      }
+  
+      .chatInfoAndSettings p {
+        font-size: 0.5rem;
+      }
+  
+      .chatInfoAndSettings h3 {
+          font-size: 0.6rem;
+      }
+  
+      .chatInfoAndSettings button {
+          font-size: 0.5rem;
+      }
+  }
 
 
 
