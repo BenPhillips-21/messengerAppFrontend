@@ -66,8 +66,8 @@ const Login = ({ setJWT }) => {
           <div className={styles.registerContainer}>
               <div className={styles.registerFormContainer}>
                 <div className={styles.registerForm}>
-                    <h1>Login</h1>
                     <form onSubmit={handleSubmit} className={styles.registerForm}>
+                    <h1>Login</h1>
                         <label>Username:</label>
                         <input 
                             type="text"

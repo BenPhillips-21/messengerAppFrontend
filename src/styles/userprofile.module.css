@@ -10,6 +10,7 @@
 .userProfileContainer img {
     border-radius: 50%;
     width: 10rem;
+    max-height: 10rem;
 }
 
 .userProfileContainer button {

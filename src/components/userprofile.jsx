@@ -142,7 +142,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
                 </form>
           }
           <h1>{newName ? newName : '@' + userState.username}</h1>
-          {editing === true && <button onClick={() => editingUsername === false ? setEditingUsername(true) : setEditingUsername(false)}>Edit My Username</button>}
+          {editing === true && userState.username !== "demoUser" && <button onClick={() => editingUsername === false ? setEditingUsername(true) : setEditingUsername(false)}>Edit My Username</button>}
           {editing === true && editingUsername === true &&
             <form>
               <label>Set New Username: </label>

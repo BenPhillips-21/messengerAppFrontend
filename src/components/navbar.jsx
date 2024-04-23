@@ -18,7 +18,8 @@ const Navbar = ({
   chad, setChad,
   addUsers, setAddUsers,
   usersToAdd, setUsersToAdd,
-  activeItem, setActiveItem
+  activeItem, setActiveItem,
+  addUserss, setAddUserss
 }) => {
 
   const navigate = useNavigate();
@@ -47,7 +48,10 @@ const Navbar = ({
       .then(response => response.json())
       .then(data => {
         setCurrentChat(data);
-        if (data.chad.username === currentUser) {
+        if (data.chad === undefined) {
+          setChad(false)
+        }
+        else if (data.chad.username === currentUser) {
           setChad(true);
         } else {
           setChad(false);
@@ -73,7 +77,7 @@ const Navbar = ({
     .then(response => response.json())
     .then(data => setChats(data)) 
     .catch(error => console.error('Error fetching posts:', error));
-  }, [chatName, selectedChatImage, menu, chatID])
+  }, [chatName, selectedChatImage, menu, chatID, activeItem])
 
   useEffect(() => {
     fetch('http://localhost:3000/currentuser', options)
@@ -139,18 +143,24 @@ const addSelectedUsers = async () => {
     for (let i = 1; i < usersToAdd.length; i++) {
       fetch(`http://localhost:3000/${gcID}/${usersToAdd[i]}/addtochat`, options)
         .then(response => response.json())
-        .then(data => console.log(data)) 
         .catch(error => console.error('Error adding user:', error));
     }
   }
   setUsersToAdd([]);
-  setAddUsers(false);
-  setChatID(gcID)
-  fetchChat();
+  setActiveItem()
+  setCurrentChat()
+  setAddUserss(false);
+  setChatID()
+  setMenu("yourChats")
 };
 
   const handleLogout = () => {
     setJWT('')
+    setMenu("yourChats")
+    setChats([])
+    setCurrentChat()
+    setChatID()
+    setActiveItem('');
     navigate('/login')
   }
 
@@ -165,12 +175,12 @@ const addSelectedUsers = async () => {
           <button onClick={() => handleLogout()}>Logout</button>
         </div>
         {menu === "yourChats" ? chats
-        .sort((a, b) => {
+          .sort((a, b) => {
           const dateA = a.messages.length > 0 ? new Date(a.messages[a.messages.length - 1].dateSent) : new Date(0);
           const dateB = b.messages.length > 0 ? new Date(b.messages[b.messages.length - 1].dateSent) : new Date(0);
           return dateB - dateA;
-      })
-        .map((chat, index) => (
+          })
+          .map((chat, index) => (
           <div onClick={() => handleChatClick(chat._id)} className={activeItem === chat._id ? styles.activeMessageCard : styles.messageCard} key={index}>
             <div className={styles.chatImage}>
               {chat.users.length > 2 ? <img src={chat.image.url}></img> : <img src={getInboundUserPfp(chat.users)}></img>}
@@ -212,11 +222,12 @@ const addSelectedUsers = async () => {
                 <p>{formatDate(chat.messages[chat.messages.length - 1].dateSent)}</p>
             </div> : ''}
           </div>
-        )) : 
+          )) : 
           <div>
               {<button id={styles.userListLeftButtons} onClick={() => handleAddUsersClick()}>Start Group Chat</button>}
               {addUsers === true ? <div className={styles.addUsersList}>
                 {allUsers && allUsers.map((user) => ((
+                  user.username !== currentUser ?
                       <li id={styles.usersToAddListItems} key={user._id}>
                         <label>
                           {user.username}
@@ -225,7 +236,7 @@ const addSelectedUsers = async () => {
                             onChange={() => handleCheckToggle(user._id)}
                           />
                         </label>
-                      </li>
+                      </li> : ''
                     )
                   ))}
                 <button id={styles.userListLeftButtons} onClick={() => addSelectedUsers()}>Add Selected Users</button>
@@ -233,6 +244,7 @@ const addSelectedUsers = async () => {
               <div className={styles.userProfiles}>
                 {addUsers === false && <h3>User Profiles: </h3>}
                 {addUsers === false && allUsers && allUsers.map((user) => (
+                  user.username !== currentUser ?
                   <li id={styles.usersToAddListItems} key={user._id}>
                     <Link to="/getuser" >
                       <div onClick={() => visitUser(user._id)} className={styles.userListLeft}>
@@ -240,7 +252,7 @@ const addSelectedUsers = async () => {
                         <p>@{user.username}</p>
                       </div>
                     </Link>
-                  </li>
+                  </li> : ''
               ))}
             </div>
           </div>

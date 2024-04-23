@@ -28,6 +28,7 @@ function App() {
   const [userToGet, setUserToGet] = useState(null)
   const [chad, setChad] = useState(false)
   const [activeItem, setActiveItem] = useState('');
+  const [addUserss, setAddUserss] = useState(false)
 
   const location = useLocation();
   const showNavbar = !['/sign-up', '/login'].includes(location.pathname);
@@ -48,6 +49,7 @@ function App() {
             userToGet={userToGet} setUserToGet={setUserToGet}
             chad={chad} setChad={setChad}
             addUsers={addUsers} setAddUsers={setAddUsers}
+            addUserss={addUserss} setAddUserss={setAddUserss}
             usersToAdd={usersToAdd} setUsersToAdd={setUsersToAdd}
             activeItem={activeItem} setActiveItem={setActiveItem}
           />}
@@ -57,6 +59,7 @@ function App() {
               <Route path="/home" element={<Home 
               JWT={JWT}
               chad={chad}
+              addUserss={addUserss} setAddUserss={setAddUserss}
               setChats={setChats} chats={chats}
               chatID={chatID}
               currentUser={currentUser} setCurrentUser={setCurrentUser} 

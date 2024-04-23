@@ -14,16 +14,16 @@ const Home = ({
   editingWindow, setEditingWindow,
   chatName, setChatName,
   // addUsers, setAddUsers,
+  addUserss, setAddUserss,
   usersToAdd, setUsersToAdd,
   chad, setChad,
   activeItem, setActiveItem
 }) => {
 
-  const [addUserss, setAddUserss] = useState(false)
   const [showChangeChatName, setShowChangeChatName] = useState(false);
   const [showChangeChatImage, setShowChangeChatImage] = useState(false);
 
-  console.log(chad)
+  console.log(chad, 'chad status')
 
   const [userObject, setUserObject] = useState()
 
@@ -219,11 +219,12 @@ const leaveChat = async (userid) => {
       throw new Error('Failed to kick user from chat');
     }
     const data = await response.json();
-    setActiveItem(chats[0]._id)
-    setCurrentChat(chats[0])
+    setActiveItem()
+    setCurrentChat()
+    addUserss(false)
     fetchChat();
   } catch (error) {
-    console.error('Error kicking user:', error.message);
+    console.error('Error leaving chat:', error.message);
   }
 }
 
@@ -256,12 +257,13 @@ const toggleChangeChatImage = () => {
     <>
       <div className={styles.fatherContainer}>
       <div className={styles.messagesContainer}>
-      {currentChat === undefined && <h1>Select a Chat</h1>}
+      {currentChat === undefined && chats.length > 0 && <h1>Select a Chat from the menu!</h1>}
+      {currentChat === undefined && chats.length === 0 && <h1>Start a Chat from the menu!</h1>}
       {currentChat !== undefined && currentChat.messages.length === 0 && <h1>Well... say something already!</h1>}
         {currentChat !== undefined && currentChat.messages.map((message, index) => (
           <div className={styles.userMessage} key={index}>
             <div className={message.writer && message.writer.username !== currentUser ? styles.msgInfoInbound : styles.msgInfoOutbound}>
-            {message.writer && <img id={styles.profilePic} src={message.writer.profilePic.url}></img>}
+            {message.writer && <img id={message.writer && message.writer.username !== currentUser ? styles.profilePicInbound : styles.profilePicOutbound} src={message.writer.profilePic.url}></img>}
               {message.writer && <p>{message.writer.username}</p>}
               <p>{message.dateSent && formatDate(message.dateSent)}</p>
             </div>
@@ -362,7 +364,7 @@ const toggleChangeChatImage = () => {
         </div> : ''}
         </div>
       : '' }
-          {currentChat && <h3>Users in Chat:</h3>}
+          {currentChat && <h3>Other Users:</h3>}
           {currentChat !== undefined && currentChat.users.map((user, index) => (
           !currentChatUsers.includes(user._id) && user.username !== currentUser ? 
           <div className={styles.userInfo} key={index}>

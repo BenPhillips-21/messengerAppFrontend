@@ -7,23 +7,32 @@
 }
 
 .registerFormContainer {
-    background-color: blueviolet;
+    background-color: #A8BBB0;
     height: 100vh;
     width: 50vw;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
 .registerForm {
     display: flex;
     flex-direction: column;
+    margin-top: -7.5rem;
 }
 
-.sitePreview{
-    width: 50vw;
-}
-
-#registeredButton {
+.registerForm button {
+    margin: 0.25rem;
     background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.registerForm button:hover {
+    text-decoration: underline;
+}
+
+.registerForm input {
+    margin: 0.5rem;
 }

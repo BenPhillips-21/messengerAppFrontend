@@ -31,6 +31,7 @@
     width: 29vw;
     overflow-y: auto;
     overflow-x: hidden;
+    border-right: 1px solid black;
 }
 
 .chatContainer button {
@@ -176,5 +177,6 @@
 
 .userListLeft img {
   width: 20%;
+  max-height: 4rem;
 }
 

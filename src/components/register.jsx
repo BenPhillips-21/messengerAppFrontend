@@ -67,10 +67,9 @@ const Register = ({JWT, setJWT}) => {
       <>
           <div className={styles.registerContainer}>
               <div className={styles.registerFormContainer}>
-                <h1>Welcome to Conversa</h1>
                 <div className={styles.registerForm}>
-                    <h1>Register here</h1>
                     <form onSubmit={handleSubmit} className={styles.registerForm}>
+                      <h1>Register here</h1>
                         <label>Username:</label>
                         <input 
                             type="text"
@@ -102,7 +101,7 @@ const Register = ({JWT, setJWT}) => {
                         {loading && <button disabled>Registering...</button>}
                     </form>
                     <button onClick={() => {demoLogin()}}>Login as Demo User</button>
-                    <button id={styles.registeredButton} onClick={() => navigate('/login')}>Already Registered?</button>
+                    <button onClick={() => navigate('/login')}>Already Registered?</button>
                 </div>
               </div>
               <div className={styles.sitePreview}>
