@@ -1,8 +1,46 @@
-# React + Vite
+# Project: Messenger Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Visit The App](https://messenger-app-frontend-chi.vercel.app)
 
-Currently, two official plugins are available:
+[Backend Repository](https://github.com/BenPhillips-21/messengerAppBackend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository comprises the frontend portion of my 'Messenger' Application. 
+
+## Table of Contents
+- [About The Project](#about-the-project)
+- [Key Features](#key-features)
+- [Built With](#built-with)
+
+## About The Project
+
+'Messenger' is a typical messaging app in the vein of 'Messenger', 'WhatsApp', 'Telegram' etc. Allows users to send messages to one another and partake in group chats.
+
+## Key Features
+
+#### Authentication and Authorization with JWTs
+The messenger app implements authentication and authorization using JSON Web Tokens (JWTs). Upon login, the backend auth server issues a JWT, which is stored on the client-side. This token is sent in the request headers for routes that require authentication, ensuring secure access to protected resources.
+
+#### Messaging and Chat Management
+Messaging is a fundamental feature of the app, allowing users to send and receive messages within individual and group chats. Messages are displayed chronologically, with the user's messages on the right side and other users' messages on the left. Each message includes the user's profile picture, name, and timestamp for clarity.
+
+#### Group Chats
+In addition to one-on-one conversations, users can engage in group chats with multiple participants. Group chats facilitate communication and collaboration among multiple users simultaneously.
+
+#### Image Sharing and Profile Pictures
+Users can upload and share images within chats using Cloudinary for image storage. Additionally, users can customize their profiles by uploading and changing their profile pictures.
+
+#### Chat Administration (Chad Powers)
+Chat administrators, known as "Chads," have special privileges within group chats. They can remove users from group chats and delete messages to maintain chat integrity and moderation.
+
+#### Responsive Design
+The messenger app is designed to be responsive across various devices, including desktops, tablets, and smartphones. This ensures optimal usability and accessibility regardless of screen size or device type.
+
+#### Intuitive User Interface
+The frontend is designed to be intuitive, ensuring that users can effortlessly navigate through various sections of the app. The clean and well-organized layout makes it easy to chat with other users.
+
+## Built With
+
+##### - React
+
+
+
