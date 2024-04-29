@@ -307,14 +307,29 @@
     width: 15rem;
   }
 
+  .devicesMenu {
+    display: none;
+  }
+
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .devicesMenu {
+        display: flex;
+      }
+
+      #hamburger {
+        width: 2rem;
+      }
+    
+      .devicesMenu button {
+        background-color: transparent;
+      }
+
     .messagesContainer {
       width: 80vw;
     }
 
     #profilePicInbound {
         width: 2rem;
-        /* margin: 0px; */
     }
 
     #profilePicOutbound {
@@ -371,6 +386,7 @@
     .messagesContainer {
         width: 100vw;
         height: auto;
+        margin-top: 2.5rem;
       }
 
 

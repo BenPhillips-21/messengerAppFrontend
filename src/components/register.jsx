@@ -100,8 +100,10 @@ const Register = ({JWT, setJWT}) => {
                         {!loading && <button>Submit</button>}
                         {loading && <button disabled>Registering...</button>}
                     </form>
-                    <button onClick={() => {demoLogin()}}>Login as Demo User</button>
-                    <button onClick={() => navigate('/login')}>Already Registered?</button>
+                    <div className={styles.otherButtonsContainer}>
+                      <button onClick={() => {demoLogin()}}>Login as Demo User</button>
+                      <button onClick={() => navigate('/login')}>Already Registered?</button>
+                    </div>
                 </div>
               </div>
               <div className={styles.sitePreview}>

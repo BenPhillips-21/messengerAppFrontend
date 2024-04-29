@@ -1,3 +1,7 @@
+body {
+    background-color: #EBE8E0;
+}
+
 .userProfileContainer {
     width: 71vw;
     display: flex;
@@ -11,6 +15,7 @@
     border-radius: 50%;
     width: 10rem;
     max-height: 10rem;
+    border: 2px solid black;
 }
 
 .userProfileContainer button {
@@ -21,4 +26,15 @@
 
 .userProfileContainer button:hover {
     text-decoration: underline;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 767px) {
+    .userProfileContainer {
+        width: 100vw;
+        margin-bottom: 10rem;
+    }
 }

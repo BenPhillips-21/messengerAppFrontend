@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
 import { formatDistanceToNow } from 'date-fns';
@@ -22,6 +22,7 @@ const Navbar = ({
   addUserss, setAddUserss
 }) => {
 
+  const [showButton, setShowButton] = useState(false)
   const navigate = useNavigate();
 
   const headers = {
@@ -94,6 +95,7 @@ const Navbar = ({
     console.log(chatid)
     setChatID(chatid)
     setActiveItem(chatid);
+    showNavbar()
     navigate('/home')
   }
 
@@ -106,6 +108,7 @@ const getInboundUserPfp = (chatUsersArray) => {
 }
 
 const visitUser = (userid) => {
+  showNavbar()
   setUserToGet(userid)
 }
 
@@ -164,15 +167,29 @@ const addSelectedUsers = async () => {
     navigate('/login')
   }
 
+  const navRef = useRef()
+
+  const showNavbar = () => {
+    navRef.current.classList.toggle(styles.responsiveNav)
+    setShowButton(!showButton)
+  }
+
+  const handleMyProfileClick = () => {
+    showNavbar()
+    navigate('/currentuser')
+  }
+
   return (
     <>
     { JWT &&
-      <div className={styles.chatContainer}>
+    <div>
+      <div className={styles.chatContainer} ref={navRef}>
         <div className={styles.menu}>
           <button onClick={() => handleMenuClick("yourChats")}>Your Chats</button>
           <button onClick={() => handleMenuClick("otherUsers")}>Start Chat</button>
-          <button onClick={() => navigate('/currentuser')}>My Profile</button>
+          <button onClick={() => handleMyProfileClick()}>My Profile</button>
           <button onClick={() => handleLogout()}>Logout</button>
+          {showButton === true && <button className={`${styles.menuButton} ${styles.navClose}`} onClick={showNavbar}><img id={styles.hamburger} src='/menu.svg'></img></button>}
         </div>
         {menu === "yourChats" ? chats
           .sort((a, b) => {
@@ -258,6 +275,10 @@ const addSelectedUsers = async () => {
           </div>
         }
       </div> 
+      <div>
+        {showButton === false && <button id={styles.openButton} onClick={showNavbar}><img id={styles.hamburger} src='/menu.svg'></img></button>}
+      </div>
+      </div>
       }
     </>
   );

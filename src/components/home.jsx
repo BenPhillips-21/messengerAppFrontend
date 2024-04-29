@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/home.module.css';
 import { formatDistanceToNow } from 'date-fns';
 

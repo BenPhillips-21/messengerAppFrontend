@@ -86,7 +86,10 @@ const Login = ({ setJWT }) => {
                         {!loading && <button>Submit</button>}
                         {loading && <button disabled>Logging in...</button>}
                     </form>
-                    <button onClick={() => {demoLogin()}}>Login as Demo User</button>
+                    <div className={styles.otherButtonsContainer}>
+                      <button onClick={() => {demoLogin()}}>Login as Demo User</button>
+                      <button onClick={() => navigate('/sign-up')}>Register</button>
+                    </div>
                 </div>
               </div>
               <div className={styles.sitePreview}>

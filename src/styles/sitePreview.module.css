@@ -11,3 +11,17 @@
     margin-top: -6rem;
     width: 100%;
 }
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .sitePreviewContainer {
+        height: 35vh;
+        width: 100vw;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+    .sitePreviewContainer {
+        display: none;
+    }
+}
