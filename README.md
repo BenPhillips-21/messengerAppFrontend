@@ -9,11 +9,16 @@ This repository comprises the frontend portion of my 'Messenger' Application.
 ## Table of Contents
 - [About The Project](#about-the-project)
 - [Key Features](#key-features)
-- [Built With](#built-with)
+- [Demo Pictures](#demo-pictures)
+- [Contact](#contact)
 
 ## About The Project
 
 'Messenger' is a typical messaging app in the vein of 'Messenger', 'WhatsApp', 'Telegram' etc. Allows users to send messages to one another and partake in group chats.
+
+#### Built With
+
+###### - React.js
 
 ## Key Features
 
@@ -38,9 +43,17 @@ The messenger app is designed to be responsive across various devices, including
 #### Intuitive User Interface
 The frontend is designed to be intuitive, ensuring that users can effortlessly navigate through various sections of the app. The clean and well-organized layout makes it easy to chat with other users.
 
-## Built With
+## Demo Pictures
 
-##### - React
+<img width="1710" alt="Screenshot 2024-04-30 at 9 44 37 AM" src="https://github.com/BenPhillips-21/messengerAppFrontend/assets/126538364/97eee00b-5b47-4302-b9b0-8859027a80a5">
+<img width="1710" alt="Screenshot 2024-04-30 at 9 44 54 AM" src="https://github.com/BenPhillips-21/messengerAppFrontend/assets/126538364/5f15fde4-ef95-42f3-9dbf-997fb113309c">
+<img width="1710" alt="Screenshot 2024-04-30 at 9 45 14 AM" src="https://github.com/BenPhillips-21/messengerAppFrontend/assets/126538364/0dcd46c8-0bb7-476a-b431-1b8c88c075fe">
+<img width="1710" alt="Screenshot 2024-04-30 at 9 45 24 AM" src="https://github.com/BenPhillips-21/messengerAppFrontend/assets/126538364/2b66b48a-59e2-4b7f-a89b-cd272271f759">
+
+## Contact
+
+E-mail: pben012@gmail.com
+[LinkedIn](https://www.linkedin.com/in/benjamin-phillips-697516267/)
 
 
 
