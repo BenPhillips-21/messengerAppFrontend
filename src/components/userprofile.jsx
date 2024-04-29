@@ -25,7 +25,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
   };
 
   const fetchUser = () => {
-    fetch('http://localhost:3000/currentuser', options)
+    fetch('https://messengerappbackend-production.up.railway.app/currentuser', options)
       .then(response => response.json())
       .then(data => setUserState(data))
       .catch(error => console.error('Error fetching user:', error));
@@ -39,7 +39,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
     e.preventDefault();
     if (usernameContent) {
       try {
-        const response = await fetch(`http://localhost:3000/updatecurrentuser`, {
+        const response = await fetch(`https://messengerappbackend-production.up.railway.app/updatecurrentuser`, {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -67,7 +67,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
     e.preventDefault();
     if (bioContent) {
       try {
-        const response = await fetch(`http://localhost:3000/updatecurrentuser`, {
+        const response = await fetch(`https://messengerappbackend-production.up.railway.app/updatecurrentuser`, {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -100,7 +100,7 @@ const UserProfile = ({JWT, setJWT, setCurrentUser}) => {
     const formData = new FormData();
     formData.append('image', image)
     try {
-        const response = await fetch(`http://localhost:3000/updateprofilepicture`, {
+        const response = await fetch(`https://messengerappbackend-production.up.railway.app/updateprofilepicture`, {
             method: 'POST',
             mode: 'cors', 
             headers: { 

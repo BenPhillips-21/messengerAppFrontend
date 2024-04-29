@@ -45,7 +45,7 @@ const Navbar = ({
   }
 
   const fetchChat = () => {
-    fetch(`http://localhost:3000/${chatID}`, options)
+    fetch(`https://messengerappbackend-production.up.railway.app/${chatID}`, options)
       .then(response => response.json())
       .then(data => {
         setCurrentChat(data);
@@ -67,21 +67,21 @@ const Navbar = ({
   }, [chatID])
 
   useEffect(() => {
-    fetch('http://localhost:3000/allusers', options)
+    fetch('https://messengerappbackend-production.up.railway.app/allusers', options)
     .then(response => response.json())
     .then(data => setAllUsers(data)) 
     .catch(error => console.error('Error fetching posts:', error));
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:3000/allchats', options)
+    fetch('https://messengerappbackend-production.up.railway.app/allchats', options)
     .then(response => response.json())
     .then(data => setChats(data)) 
     .catch(error => console.error('Error fetching posts:', error));
   }, [chatName, selectedChatImage, menu, chatID, activeItem])
 
   useEffect(() => {
-    fetch('http://localhost:3000/currentuser', options)
+    fetch('https://messengerappbackend-production.up.railway.app/currentuser', options)
     .then(response => response.json())
     .then(data => setCurrentUser(data.username)) 
     .catch(error => console.error('Error fetching posts:', error));
@@ -134,7 +134,7 @@ const handleCheckToggle = (userID) => {
 const addSelectedUsers = async () => {
   let gcID;
 
-  await fetch(`http://localhost:3000/createchat/${usersToAdd[0]}`, createChatOptions)
+  await fetch(`https://messengerappbackend-production.up.railway.app/createchat/${usersToAdd[0]}`, createChatOptions)
     .then(response => response.json())
     .then(data => {
       console.log(data);
@@ -144,7 +144,7 @@ const addSelectedUsers = async () => {
 
   if (gcID) {
     for (let i = 1; i < usersToAdd.length; i++) {
-      fetch(`http://localhost:3000/${gcID}/${usersToAdd[i]}/addtochat`, options)
+      fetch(`https://messengerappbackend-production.up.railway.app/${gcID}/${usersToAdd[i]}/addtochat`, options)
         .then(response => response.json())
         .catch(error => console.error('Error adding user:', error));
     }
@@ -228,16 +228,28 @@ const addSelectedUsers = async () => {
                 </>
               )}
               </div>
-              {chat.messages.length > 0 ? <div className={styles.lastMsg}>
-                {chat.messages[chat.messages.length - 1].messageContent === "" ? 
-                <p>{chat.messages[chat.messages.length - 2].messageContent.slice(0, 30)}</p> :
-                <p>{chat.messages[chat.messages.length - 1].messageContent.slice(0, 30)}</p>}
-              </div> : <p>No messages sent in this chat</p>}
+                {
+                (() => {
+                  for (let i = chat.messages.length - 1; i >= 0; i--) {
+                    const message = chat.messages[i].messageContent;
+                    if (message.trim().length > 30) {
+                      return (
+                        <p>{message.slice(0, 30)}...</p>
+                      );
+                    } else {
+                      return (
+                        <p>{message.slice(0, 30)}</p>
+                      );
+                    }
+                  }
+                  return <p>No messages</p>;
+                })()
+              }
             </div>
             {chat.messages.length > 0 ? <div className={styles.lastActiveContainer}>
               <p>Last Active: </p>
                 <p>{formatDate(chat.messages[chat.messages.length - 1].dateSent)}</p>
-            </div> : ''}
+            </div> : <p>Chat Inactive</p>}
           </div>
           )) : 
           <div>

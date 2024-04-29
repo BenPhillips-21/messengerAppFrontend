@@ -26,7 +26,10 @@
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-
+    .userContainer {
+        width: 100vw;
+        margin-top: 0rem;
+    }
 }
 
 @media only screen and (max-width: 767px) {

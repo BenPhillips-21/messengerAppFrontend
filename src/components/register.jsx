@@ -15,7 +15,7 @@ const Register = ({JWT, setJWT}) => {
 
     const demoLogin = async () => {
         try {
-            const response = await fetch('http://localhost:3000/demologin', {
+            const response = await fetch('https://messengerappbackend-production.up.railway.app/demologin', {
               method: 'POST',
             });
       
@@ -41,7 +41,7 @@ const Register = ({JWT, setJWT}) => {
       setLoading(true);
   
       try {
-        const response = await fetch('http://localhost:3000/sign-up', {
+        const response = await fetch('https://messengerappbackend-production.up.railway.app/sign-up', {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser)

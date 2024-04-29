@@ -307,26 +307,23 @@
     width: 15rem;
   }
 
-  .devicesMenu {
-    display: none;
-  }
-
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-    .devicesMenu {
+    .fatherContainer {
         display: flex;
-      }
-
-      #hamburger {
-        width: 2rem;
-      }
-    
-      .devicesMenu button {
-        background-color: transparent;
-      }
+        flex-direction: column;
+    }
 
     .messagesContainer {
-      width: 80vw;
+      width: 100vw;
+      height: auto;
+      margin-top: 3rem;
     }
+
+    .chatInfoAndSettings {
+        width: 100vw;
+        border: none;
+        overflow-y: auto;
+      }
 
     #profilePicInbound {
         width: 2rem;
@@ -355,10 +352,6 @@
 
     .messageAndImageContainerOutbound p {
         font-size: 0.75rem;
-    }
-
-    .chatInfoAndSettings {
-      width: 20vw;
     }
 
     .chatInfoAndSettings p {
@@ -413,9 +406,9 @@
         margin-left: 6.5rem;
         }
 
-        .sendMessageContainer p {
-            font-size: 0.5rem;
-        }
+    .sendMessageContainer p {
+        font-size: 0.5rem;
+    }
 
     .selectedImage {
         width: 5rem;

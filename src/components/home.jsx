@@ -53,7 +53,7 @@ useEffect(() => {
   };
 
   const fetchChat = () => {
-    fetch(`http://localhost:3000/${chatID}`, options)
+    fetch(`https://messengerappbackend-production.up.railway.app/${chatID}`, options)
     .then(response => response.json())
     .then(data => setCurrentChat(data)) 
     .catch(error => console.error('Error fetching posts:', error));
@@ -71,7 +71,7 @@ useEffect(() => {
     formData.append('image', image)
     formData.append('messageContent', messageContent)
     try {
-        const response = await fetch(`http://localhost:3000/${chatID}/sendmessage`, {
+        const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/sendmessage`, {
             method: 'POST',
             mode: 'cors', 
             headers: { 
@@ -99,7 +99,7 @@ const handleChangeChatImage = async (e) => {
   const formData = new FormData();
   formData.append('image', image)
   try {
-    const response = await fetch(`http://localhost:3000/${chatID}/changechatimage`, {
+    const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/changechatimage`, {
         method: 'POST',
         headers: { 
             'Authorization': `Bearer ${JWT}`
@@ -134,7 +134,7 @@ const handleChangeChatName = async (e) => {
   e.preventDefault();
   let newChatName = chatName;
   try {
-    const response = await fetch(`http://localhost:3000/${chatID}/changechatname`, {
+    const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/changechatname`, {
       method: 'POST',
       mode: 'cors', 
       headers: { 
@@ -177,7 +177,7 @@ const addSelectedUsers = async () => {
   try {
     for (let i = 0; i < usersToAdd.length; i++) {
       console.log(usersToAdd[i]);
-      const response = await fetch(`http://localhost:3000/${chatID}/${usersToAdd[i]}/addtochat`, options);
+      const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/${usersToAdd[i]}/addtochat`, options);
       const data = await response.json();
       setCurrentChat(data.updatedChat);
     }
@@ -200,7 +200,7 @@ useEffect(() => {
 
 const kickUser = async (userid) => {
   try {
-    const response = await fetch(`http://localhost:3000/${chatID}/${userid}/kickfromchat`, options);
+    const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/${userid}/kickfromchat`, options);
     if (!response.ok) {
       throw new Error('Failed to kick user from chat');
     }
@@ -214,7 +214,7 @@ const kickUser = async (userid) => {
 
 const leaveChat = async (userid) => {
   try {
-    const response = await fetch(`http://localhost:3000/${chatID}/${userid}/kickfromchat`, options);
+    const response = await fetch(`https://messengerappbackend-production.up.railway.app/${chatID}/${userid}/kickfromchat`, options);
     if (!response.ok) {
       throw new Error('Failed to kick user from chat');
     }
@@ -230,7 +230,7 @@ const leaveChat = async (userid) => {
 
 const deleteMsg = async (messageid) => {
   try {
-    const response = await fetch(`http://localhost:3000/${messageid}/deletemessage`, options);
+    const response = await fetch(`https://messengerappbackend-production.up.railway.app/${messageid}/deletemessage`, options);
     if (!response.ok) {
       throw new Error('Failed to delete message');
     }

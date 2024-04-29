@@ -24,7 +24,7 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
       }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/getuser/${userToGet}`, options)
+        fetch(`https://messengerappbackend-production.up.railway.app/getuser/${userToGet}`, options)
         .then(response => response.json())
         .then(data => setUser(data)) 
         .catch(error => console.error('Error fetching posts:', error));
@@ -64,7 +64,7 @@ const GetUser = ({JWT, userToGet, setUserToGet, chats, currentUser, setChatID, s
       const startChat = async () => {
         let result = await checkIfPrivateChatExists(); 
         if (result === false) {
-            await fetch(`http://localhost:3000/createchat/${user._id}`, createChatOptions)
+            await fetch(`https://messengerappbackend-production.up.railway.app/createchat/${user._id}`, createChatOptions)
                 .then(response => response.json())
                 .then(data => {
                     setChatID(data.chat._id);
